@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:online_course/model/post.dart';
 import 'package:online_course/theme/color.dart';
 
 import 'custom_image.dart';
 
 class FeatureItem extends StatelessWidget {
-  FeatureItem(
-      {Key? key,
-      required this.data,
-      this.width = 280,
-      this.height = 290,
-      this.onTap})
-      : super(key: key);
-  final data;
+  FeatureItem({
+    Key? key,
+    required this.post,
+    this.width = 280,
+    this.height = 290,
+    this.onTap,
+  }) : super(key: key);
+  final Post post;
   final double width;
   final double height;
   final GestureTapCallback? onTap;
@@ -67,7 +68,7 @@ class FeatureItem extends StatelessWidget {
             Padding(
               padding: EdgeInsets.all(8.0),
               child: Text(
-                "lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet",
+                '${post.description}',
                 textAlign: TextAlign.justify,
                 style: TextStyle(
                   color: textColor,
@@ -85,7 +86,7 @@ class FeatureItem extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Name of user",
+                      "${post.user!.name!}}",
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                         fontSize: 17,
@@ -135,7 +136,7 @@ class FeatureItem extends StatelessWidget {
         getAttribute(
           Icons.favorite_border,
           Colors.red,
-          "100",
+         '100'
         ),
         SizedBox(
           width: 15,

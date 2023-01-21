@@ -1,6 +1,8 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:online_course/controller/post.dart';
 import 'package:online_course/theme/color.dart';
 import 'package:online_course/utils/data.dart';
 import 'package:online_course/widgets/category_box.dart';
@@ -17,6 +19,8 @@ class HomePage extends StatefulWidget {
 
 final localStorage = GetStorage();
 final fetchUser = localStorage.read('token');
+
+final PostController feedController = Get.put(PostController());
 
 TextEditingController _postController = TextEditingController();
 
@@ -116,13 +120,21 @@ class _HomePageState extends State<HomePage> {
                   shrinkWrap: true,
                   padding: EdgeInsets.symmetric(horizontal: 15.0),
                   physics: NeverScrollableScrollPhysics(),
-                  itemCount: 5,
+                  itemCount: feedController.posts.length,
                   itemBuilder: (context, index) {
-                    return FeatureItem(
-                      onTap: () {
-                        print("hello $index");
+                    return Obx(
+                      () {
+                        return feedController.isLoading.value
+                            ? CircularProgressIndicator(
+                                color: primary,
+                              )
+                            : FeatureItem(
+                                onTap: () {
+                                  print("hello ");
+                                },
+                                post: feedController.posts[index],
+                              );
                       },
-                      data: "",
                     );
                   },
                 ),
@@ -368,7 +380,7 @@ class _HomePageState extends State<HomePage> {
         features.length,
         (index) => FeatureItem(
           onTap: () {},
-          data: features[index],
+          post: features[index],
         ),
       ),
     );
