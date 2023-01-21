@@ -47,10 +47,7 @@ class InputField extends StatelessWidget {
         obscureText: obscureText ? true : false,
         keyboardType: keyboardType,
         validator: (value) {
-          if (value!.isEmpty) {
-            return 'Please enter some text';
-          }
-          return null;
+          return validator(value);
         },
         onSaved: (value) {
           inputController.text = value!;

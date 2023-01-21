@@ -19,6 +19,8 @@ dependencies:
   carousel_slider: ^4.0.0
   get: ^4.6.5
   font_awesome_flutter: ^10.3.0
+  http: ^0.13.5
+  get_storage: ^2.0.3
 
 dev_dependencies:
   flutter_test:

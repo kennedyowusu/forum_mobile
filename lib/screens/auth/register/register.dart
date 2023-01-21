@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:online_course/controller/authentication.dart';
 import 'package:online_course/screens/auth/login/login.dart';
 import 'package:online_course/theme/color.dart';
 import 'package:online_course/widgets/button.dart';
@@ -14,6 +15,9 @@ class RegisterScreen extends StatelessWidget {
   TextEditingController usernameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+
+  final AuthenticationController _authenticationController =
+      Get.put(AuthenticationController());
 
   @override
   Widget build(BuildContext context) {
@@ -121,17 +125,43 @@ class RegisterScreen extends StatelessWidget {
                       },
                     ),
                     SizedBox(height: 20),
-                    Button(
-                      buttonText: 'Sign Up',
-                      onPressed: () {
-                        if (formKey.currentState!.validate()) {
-                          formKey.currentState!.save();
-                          print(nameController.text);
-                          print(emailController.text);
-                          print(passwordController.text);
-                        }
-                      },
-                    ),
+                    Obx(() {
+                      return _authenticationController.isLoading.value
+                          ? CircularProgressIndicator(
+                              color: primary,
+                            )
+                          : Button(
+                              buttonText: 'Sign Up',
+                              onPressed: () async {
+                                if (formKey.currentState!.validate()) {
+                                  formKey.currentState!.save();
+                                  await _authenticationController.registerUser(
+                                    name: nameController.text.trim(),
+                                    username: usernameController.text.trim(),
+                                    email: emailController.text.trim(),
+                                    password: passwordController.text.trim(),
+                                  );
+
+                                  // _authenticationController
+                                  //     .registerUser(
+                                  //   name: nameController.text.trim(),
+                                  //   username: usernameController.text.trim(),
+                                  //   email: emailController.text.trim(),
+                                  //   password: passwordController.text.trim(),
+                                  // )
+                                  //     .then(
+                                  //   (value) {
+                                  //     if (value) {
+                                  //       Get.offAll(
+                                  //         () => LoginScreen(),
+                                  //       );
+                                  //     }
+                                  //   },
+                                  // );
+                                }
+                              },
+                            );
+                    }),
                     SizedBox(height: 20),
                   ],
                 ),

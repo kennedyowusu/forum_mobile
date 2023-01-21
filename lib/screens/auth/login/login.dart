@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:online_course/controller/authentication.dart';
 import 'package:online_course/screens/auth/register/register.dart';
 import 'package:online_course/theme/color.dart';
 import 'package:online_course/widgets/button.dart';
@@ -12,8 +13,11 @@ class LoginScreen extends StatelessWidget {
   LoginScreen({Key? key}) : super(key: key);
   final formKey = GlobalKey<FormState>();
 
-  TextEditingController emailController = TextEditingController();
+  TextEditingController usernameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+
+  final AuthenticationController _authenticationController =
+      Get.put(AuthenticationController());
 
   String email = '';
   String password = '';
@@ -57,8 +61,8 @@ class LoginScreen extends StatelessWidget {
                     ),
                     SizedBox(height: 20),
                     InputField(
-                      inputController: emailController,
-                      hintText: 'Enter Email Address',
+                      inputController: usernameController,
+                      hintText: 'Enter Username',
                       prefixIcon: Icons.email,
                       keyboardType: TextInputType.emailAddress,
                       obscureText: false,
@@ -69,7 +73,7 @@ class LoginScreen extends StatelessWidget {
                         return null;
                       },
                       onSaved: (value) {
-                        emailController.text = value!;
+                        usernameController.text = value!;
                       },
                     ),
                     SizedBox(height: 10),
@@ -86,7 +90,7 @@ class LoginScreen extends StatelessWidget {
                         return null;
                       },
                       onSaved: (value) {
-                        emailController.text = value!;
+                        usernameController.text = value!;
                       },
                     ),
                     SizedBox(height: 10),
@@ -101,14 +105,24 @@ class LoginScreen extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 20),
-                    Button(
-                      buttonText: 'Login',
-                      onPressed: () {
-                        if (formKey.currentState!.validate()) {
-                          formKey.currentState!.save();
-                          print(emailController.text);
-                          print(passwordController.text);
-                        }
+                    Obx(
+                      () {
+                        return _authenticationController.isLoading.value
+                            ? CircularProgressIndicator(
+                                color: primary,
+                              )
+                            : Button(
+                                buttonText: 'Login',
+                                onPressed: () async {
+                                  if (formKey.currentState!.validate()) {
+                                    formKey.currentState!.save();
+                                    await _authenticationController.loginUser(
+                                      username: usernameController.text.trim(),
+                                      password: passwordController.text.trim(),
+                                    );
+                                  }
+                                },
+                              );
                       },
                     ),
                     SizedBox(height: 20),
