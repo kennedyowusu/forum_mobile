@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-const primary = Color(0xFFf77080);
+const primary = Color(0xFF1E319D);
 const secondary = Color(0xFFe96561);
 
 const mainColor = Color(0xFF000000);
@@ -12,7 +12,7 @@ const bottomBarColor = Colors.white;
 const inActiveColor = Colors.grey;
 const shadowColor = Colors.black87;
 const textBoxColor = Colors.white;
-const textColor = Color(0xFF333333);
+const textColor = Color(0xFF4f4f4f);
 const glassTextColor = Colors.white;
 const labelColor = Color(0xFF8A8989);
 const glassLabelColor = Colors.white;

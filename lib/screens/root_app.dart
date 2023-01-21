@@ -7,14 +7,14 @@ import 'package:online_course/utils/constant.dart';
 import 'package:online_course/widgets/bottombar_item.dart';
 import 'home.dart';
 
-class RootApp extends StatefulWidget {
-  const RootApp({ Key? key }) : super(key: key);
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({ Key? key }) : super(key: key);
 
   @override
-  _RootAppState createState() => _RootAppState();
+  _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _RootAppState extends State<RootApp>  with TickerProviderStateMixin{
+class _HomeScreenState extends State<HomeScreen>  with TickerProviderStateMixin{
   int activeTab = 0;
   List barItems = [
     {
@@ -57,7 +57,7 @@ class _RootAppState extends State<RootApp>  with TickerProviderStateMixin{
   @override
   void initState() {
     super.initState();
-     _controller.forward();
+      _controller.forward();
   }
 
   @override

@@ -1,6 +1,7 @@
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:online_course/theme/color.dart';
 import 'package:online_course/utils/data.dart';
 import 'package:online_course/widgets/category_box.dart';
@@ -13,6 +14,9 @@ class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
 }
+
+final localStorage = GetStorage();
+final fetchUser = localStorage.read('token');
 
 class _HomePageState extends State<HomePage> {
   @override
