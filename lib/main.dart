@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:online_course/screens/root_app.dart';
 import 'package:online_course/screens/splash.dart';
 import 'theme/color.dart';
 
@@ -18,7 +17,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primaryColor: primary,
       ),
-      home: HomeScreen(),
+      home: SplashScreen(),
     );
   }
 }
