@@ -57,7 +57,7 @@ class _RootAppState extends State<RootApp>  with TickerProviderStateMixin{
   @override
   void initState() {
     super.initState();
-     _controller.forward();
+      _controller.forward();
   }
 
   @override
