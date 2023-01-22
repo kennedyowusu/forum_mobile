@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:online_course/model/post.dart';
+import 'package:online_course/screens/auth/post_details.dart';
 import 'package:online_course/theme/color.dart';
 
 import 'custom_image.dart';
@@ -86,7 +88,7 @@ class FeatureItem extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "${post.user!.name!}}",
+                      "${post.user?.name}",
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                         fontSize: 17,
@@ -136,7 +138,8 @@ class FeatureItem extends StatelessWidget {
         getAttribute(
           Icons.favorite_border,
           Colors.red,
-         '100'
+          '100',
+          onTap: () {},
         ),
         SizedBox(
           width: 15,
@@ -145,26 +148,39 @@ class FeatureItem extends StatelessWidget {
           Icons.comment,
           labelColor,
           "100",
+          onTap: () {
+            Get.to(
+              () => SinglePostScreen(post: post),
+            );
+            print("Comment");
+          },
         ),
       ],
     );
   }
 
-  getAttribute(IconData icon, Color color, String info) {
+  getAttribute(IconData icon, Color color, String info,
+      {required Function()? onTap}) {
     return Row(
       children: [
-        Icon(
-          icon,
-          size: 25,
-          color: color,
+        IconButton(
+          onPressed: onTap,
+          icon: Icon(
+            icon,
+            size: 25,
+            color: color,
+          ),
         ),
         SizedBox(
           width: 5,
         ),
-        Text(
-          info,
-          overflow: TextOverflow.ellipsis,
-          style: TextStyle(color: labelColor, fontSize: 13),
+        GestureDetector(
+          onTap: onTap,
+          child: Text(
+            info,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(color: labelColor, fontSize: 13),
+          ),
         ),
       ],
     );

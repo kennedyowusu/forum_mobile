@@ -18,7 +18,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
   final localStorage = GetStorage().read('token');
 
   final PostController feedController = Get.put(PostController());
