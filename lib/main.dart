@@ -14,25 +14,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      debugShowCheckedModeBanner: false,
-      defaultTransition: Transition.fade,
-      title: 'Forum',
-      theme: ThemeData(
-        primaryColor: primary,
-      ),
-      home: SinglePostScreen(
-        post: Post(
-          id: 1,
-          title: "Hello",
-          description: "Hey",
-          createdAt: DateTime.now(),
-          updatedAt: DateTime.now(),
-          liked: null,
-          likesCount: null,
-          user: null,
-          userId: null,
+        debugShowCheckedModeBanner: false,
+        defaultTransition: Transition.fade,
+        title: 'Forum',
+        theme: ThemeData(
+          primaryColor: primary,
         ),
-      ),
-    );
+        home: SplashScreen());
   }
 }

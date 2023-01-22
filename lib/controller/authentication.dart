@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'dart:convert' as convert;
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
-import 'package:online_course/widgets/snackbar.dart';
 import 'package:online_course/screens/root_app.dart';
 import 'package:online_course/services/endpoints.dart';
 
@@ -30,12 +29,12 @@ class AuthenticationController extends GetxController {
       'email': email,
       'password': password,
     };
-    isLoading(true);
+
     try {
+      isLoading(true);
       http.Response response = await http.post(
         Uri.parse('${BASE_URL}register'),
         headers: {
-          'Content-Type': 'application/json',
           'Accept': 'application/json',
         },
         body: convert.jsonEncode(dataObject),
@@ -53,9 +52,7 @@ class AuthenticationController extends GetxController {
         );
       } else {
         isLoading(false);
-        SnackBarMessage(
-          message: '${json.decode(response.body)['message']}',
-        );
+      snackBarMessage(response);
       }
     } catch (e) {
       debugPrint('Registration failed $e');
@@ -64,6 +61,7 @@ class AuthenticationController extends GetxController {
     }
   }
 
+  
   Future loginUser({
     required String username,
     required String password,
@@ -77,10 +75,9 @@ class AuthenticationController extends GetxController {
       http.Response response = await http.post(
         Uri.parse('${BASE_URL}login'),
         headers: {
-          'Content-Type': 'application/json',
           'Accept': 'application/json',
         },
-        body: convert.jsonEncode(dataObject),
+        body: dataObject,
       );
       if (response.statusCode == 200) {
         isLoading(false);
@@ -95,9 +92,10 @@ class AuthenticationController extends GetxController {
         );
       } else {
         isLoading(false);
-        SnackBarMessage(
-          message: '${json.decode(response.body)['message']}',
+        debugPrint(
+          '${json.decode(response.body)['message']}',
         );
+        snackBarMessage(response);
       }
     } catch (e) {
       debugPrint('Registration failed $e');
@@ -106,3 +104,16 @@ class AuthenticationController extends GetxController {
     }
   }
 }
+
+SnackbarController snackBarMessage(http.Response response) {
+    return Get.snackbar(
+        "Error Occurred",
+        '${json.decode(response.body)['message']}',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.black,
+        colorText: Colors.white,
+        margin: EdgeInsets.all(20),
+        borderRadius: 10,
+        isDismissible: true,
+      );
+  }

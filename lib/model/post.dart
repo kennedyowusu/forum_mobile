@@ -10,14 +10,14 @@ String postToJson(Post data) => json.encode(data.toJson());
 
 class Post {
   Post({
-    required this.id,
-    required this.title,
-    required this.description,
-    required this.userId,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.liked,
-    required this.likesCount,
+    this.id,
+    this.title,
+    this.description,
+    this.userId,
+    this.createdAt,
+    this.updatedAt,
+    this.liked,
+    this.likesCount,
     required this.user,
   });
 
@@ -29,7 +29,7 @@ class Post {
   DateTime? updatedAt = DateTime.now();
   bool? liked = false;
   int? likesCount = 0;
-  User? user;
+  User user;
 
   factory Post.fromJson(Map<String, dynamic> json) => Post(
     id: json["id"],
@@ -58,13 +58,13 @@ Map<String, dynamic> toJson() => {
 
 class User {
   User({
-    required this.id,
-    required this.name,
-    required this.username,
-    required this.email,
-    required this.emailVerifiedAt,
-    required this.createdAt,
-    required this.updatedAt,
+    this.id,
+    this.name,
+    this.username,
+    this.email,
+    this.emailVerifiedAt,
+    this.createdAt,
+    this.updatedAt,
   });
 
   int? id = 0;

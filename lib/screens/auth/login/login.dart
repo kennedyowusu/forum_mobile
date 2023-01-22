@@ -66,15 +66,6 @@ class LoginScreen extends StatelessWidget {
                       prefixIcon: Icons.email,
                       keyboardType: TextInputType.emailAddress,
                       obscureText: false,
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return 'Please enter some text';
-                        }
-                        return null;
-                      },
-                      onSaved: (value) {
-                        usernameController.text = value!;
-                      },
                     ),
                     SizedBox(height: 10),
                     InputField(
@@ -83,15 +74,6 @@ class LoginScreen extends StatelessWidget {
                       prefixIcon: Icons.lock,
                       keyboardType: TextInputType.visiblePassword,
                       obscureText: true,
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return 'Please enter some text';
-                        }
-                        return null;
-                      },
-                      onSaved: (value) {
-                        usernameController.text = value!;
-                      },
                     ),
                     SizedBox(height: 10),
                     Container(

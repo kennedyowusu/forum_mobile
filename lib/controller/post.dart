@@ -8,7 +8,6 @@ import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:online_course/model/post.dart';
 import 'package:online_course/services/endpoints.dart';
-import 'package:online_course/widgets/snackbar.dart';
 
 class PostController extends GetxController {
   RxList<Post> posts = <Post>[].obs;
@@ -69,14 +68,10 @@ class PostController extends GetxController {
         isLoading(false);
         fetchPosts();
         debugPrint('Post created successfully');
-        SnackBarMessage(
-          message: '${json.decode(response.body)['message']}',
-        );
+        snackBarMessage(response);
       } else {
         isLoading(false);
-        SnackBarMessage(
-          message: '${json.decode(response.body)['message']}',
-        );
+        snackBarMessage(response);
       }
     } catch (e) {
       isLoading(false);
@@ -99,14 +94,10 @@ class PostController extends GetxController {
         isLoading(false);
         fetchPosts();
         debugPrint('Post deleted successfully');
-        SnackBarMessage(
-          message: '${json.decode(response.body)['message']}',
-        );
+        snackBarMessage(response);
       } else {
         isLoading(false);
-        SnackBarMessage(
-          message: '${json.decode(response.body)['message']}',
-        );
+        snackBarMessage(response);
       }
     } catch (e) {
       isLoading(false);
@@ -138,14 +129,10 @@ class PostController extends GetxController {
         isLoading(false);
         fetchPosts();
         debugPrint('Post updated successfully');
-        SnackBarMessage(
-          message: '${json.decode(response.body)['message']}',
-        );
+        snackBarMessage(response);
       } else {
         isLoading(false);
-        SnackBarMessage(
-          message: '${json.decode(response.body)['message']}',
-        );
+        snackBarMessage(response);
       }
     } catch (e) {
       isLoading(false);
@@ -154,4 +141,17 @@ class PostController extends GetxController {
       isLoading(false);
     }
   }
+}
+
+SnackbarController snackBarMessage(http.Response response) {
+  return Get.snackbar(
+    "Error Occurred",
+    '${json.decode(response.body)['message']}',
+    snackPosition: SnackPosition.BOTTOM,
+    backgroundColor: Colors.black,
+    colorText: Colors.white,
+    margin: EdgeInsets.all(20),
+    borderRadius: 10,
+    isDismissible: true,
+  );
 }

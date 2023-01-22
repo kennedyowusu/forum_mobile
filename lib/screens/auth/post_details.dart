@@ -91,12 +91,12 @@ class _SinglePostScreenState extends State<SinglePostScreen>
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                   child: ListTile(
-                                    leading: CircleAvatar(
-                                      radius: 30,
-                                      backgroundImage: NetworkImage(
-                                        "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg",
-                                      ),
-                                    ),
+                                    // leading: CircleAvatar(
+                                    //   radius: 30,
+                                    //   backgroundImage: NetworkImage(
+                                    //     "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg",
+                                    //   ),
+                                    // ),
                                     title: Text(
                                       '${commentController.comments[index].user!.name}',
                                       style: TextStyle(
@@ -128,35 +128,35 @@ class _SinglePostScreenState extends State<SinglePostScreen>
                                       ],
                                     ),
                                     // show delete icon if the comment is made by the user
-                                    // trailing: commentController
-                                    //             .comments[index].userId ==
-                                    //         1
-                                    //     ? IconButton(
-                                    //         onPressed: () {
-                                    //           commentController
-                                    //               .deleteComment(
-                                    //                   commentController
-                                    //                       .comments[index].id)
-                                    //               .then((value) {
-                                    //             commentController
-                                    //                 .fetchComments(
-                                    //                     widget.post.id);
-                                    //           });
-                                    //         },
-                                    //         icon: Icon(
-                                    //           Icons.delete,
-                                    //           color: Colors.red,
-                                    //         ),
-                                    //       )
-                                    //     : null,
+                                    trailing: commentController
+                                                .comments[index].userId ==
+                                            1
+                                        ? IconButton(
+                                            onPressed: () {
+                                              commentController
+                                                  .deleteComment(
+                                                      commentController
+                                                          .comments[index].id)
+                                                  .then((value) {
+                                                commentController
+                                                    .fetchComments(
+                                                        widget.post.id);
+                                              });
+                                            },
+                                            icon: Icon(
+                                              Icons.delete,
+                                              color: Colors.red,
+                                            ),
+                                          )
+                                        : null,
 
-                                    trailing: Text(
-                                      "time",
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        color: Colors.grey,
-                                      ),
-                                    ),
+                                    // trailing: Text(
+                                    //   "time",
+                                    //   style: TextStyle(
+                                    //     fontSize: 14,
+                                    //     color: Colors.grey,
+                                    //   ),
+                                    // ),
                                   ),
                                   // child: Row(
                                   //   children: [
