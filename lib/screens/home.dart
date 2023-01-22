@@ -17,14 +17,15 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-final localStorage = GetStorage();
-final fetchUser = localStorage.read('token');
-
-final PostController feedController = Get.put(PostController());
-
-TextEditingController _postController = TextEditingController();
-
 class _HomePageState extends State<HomePage> {
+
+  final localStorage = GetStorage().read('token');
+
+  final PostController feedController = Get.put(PostController());
+
+  TextEditingController _postController = TextEditingController();
+  TextEditingController _titleController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -46,47 +47,90 @@ class _HomePageState extends State<HomePage> {
 
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 15.0),
-                  child: Container(
-                    height: height * 0.1,
-                    padding: EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: TextFormField(
-                            controller: _postController,
-                            decoration: InputDecoration(
-                              hintText: "What do you have in mind?",
-                              hintStyle: TextStyle(
-                                color: Colors.grey,
-                                fontSize: 16,
-                              ),
-                              border: InputBorder.none,
+                  child: Column(
+                    children: [
+                      Container(
+                        height: height * 0.07,
+                        padding: EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: TextFormField(
+                          controller: _titleController,
+                          decoration: InputDecoration(
+                            hintText: "Enter Title",
+                            hintStyle: TextStyle(
+                              color: Colors.grey,
+                              fontSize: 16,
                             ),
+                            border: InputBorder.none,
                           ),
                         ),
-                        GestureDetector(
-                          onTap: () {},
-                          child: Container(
-                            height: 40,
-                            width: 40,
-                            decoration: BoxDecoration(
-                              color: primary,
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Center(
-                              child: Icon(
-                                Icons.send,
-                                color: Colors.white,
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Container(
+                        height: height * 0.1,
+                        padding: EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: TextFormField(
+                                controller: _postController,
+                                decoration: InputDecoration(
+                                  hintText: "What do you have in mind?",
+                                  hintStyle: TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 16,
+                                  ),
+                                  border: InputBorder.none,
+                                ),
                               ),
                             ),
-                          ),
+                            GestureDetector(
+                              onTap: () async {
+                                await feedController.createPost(
+                                  title: _titleController.text.trim(),
+                                  description: _postController.text.trim(),
+                                );
+                                _titleController.clear();
+                                _postController.clear();
+
+                                feedController.fetchPosts();
+                              },
+                              child: Container(
+                                height: 40,
+                                width: 40,
+                                decoration: BoxDecoration(
+                                  color: primary,
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Center(
+                                  child: Obx(
+                                    () {
+                                      return feedController.isLoading.value
+                                          ? CircularProgressIndicator(
+                                              color: Colors.white,
+                                            )
+                                          : Icon(
+                                              Icons.send,
+                                              color: Colors.white,
+                                            );
+                                    },
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
 
