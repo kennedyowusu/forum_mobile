@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:online_course/theme/color.dart';
 
-class AuthenticationSnackBar extends StatelessWidget {
-  const AuthenticationSnackBar({Key? key, required this.message})
+class SnackBarMessage extends StatelessWidget {
+  const SnackBarMessage({Key? key, required this.message})
       : super(key: key);
 
   final String message;
@@ -16,7 +17,7 @@ class AuthenticationSnackBar extends StatelessWidget {
           fontSize: 16,
         ),
       ),
-      backgroundColor: Colors.red,
+      backgroundColor: primary,
       duration: Duration(seconds: 3),
     );
   }

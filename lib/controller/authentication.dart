@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'dart:convert' as convert;
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
-import 'package:online_course/screens/auth/auth_widgets/snackbar.dart';
+import 'package:online_course/widgets/snackbar.dart';
 import 'package:online_course/screens/root_app.dart';
 import 'package:online_course/services/endpoints.dart';
 
@@ -53,7 +53,7 @@ class AuthenticationController extends GetxController {
         );
       } else {
         isLoading(false);
-        AuthenticationSnackBar(
+        SnackBarMessage(
           message: '${json.decode(response.body)['message']}',
         );
       }
@@ -95,7 +95,7 @@ class AuthenticationController extends GetxController {
         );
       } else {
         isLoading(false);
-        AuthenticationSnackBar(
+        SnackBarMessage(
           message: '${json.decode(response.body)['message']}',
         );
       }
