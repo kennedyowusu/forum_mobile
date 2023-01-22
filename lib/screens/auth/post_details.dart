@@ -247,23 +247,36 @@ class _SinglePostScreenState extends State<SinglePostScreen>
             ),
           ),
         ),
-        Container(
-          height: 50,
-          width: 50,
-          decoration: BoxDecoration(
-            color: primary,
-            boxShadow: [
-              BoxShadow(
-                color: shadowColor.withOpacity(0.1),
-                spreadRadius: 1,
-                blurRadius: 1,
-                offset: Offset(1, 1), // changes position of shadow
-              ),
-            ],
-          ),
-          child: Icon(
-            Icons.send,
-            color: Colors.white,
+        GestureDetector(
+          onTap: () async {
+            await commentController
+                .createComment(
+              id: widget.post.id,
+              comment: _commentEditingController.text.trim(),
+            )
+                .then((value) {
+              commentController.fetchComments(widget.post.id);
+            });
+            _commentEditingController.clear();
+          },
+          child: Container(
+            height: 50,
+            width: 50,
+            decoration: BoxDecoration(
+              color: primary,
+              boxShadow: [
+                BoxShadow(
+                  color: shadowColor.withOpacity(0.1),
+                  spreadRadius: 1,
+                  blurRadius: 1,
+                  offset: Offset(1, 1), // changes position of shadow
+                ),
+              ],
+            ),
+            child: Icon(
+              Icons.send,
+              color: Colors.white,
+            ),
           ),
         ),
       ],
