@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:online_course/controller/favorite_and_unfavorite.dart';
+import 'package:online_course/controller/post.dart';
 import 'package:online_course/model/post.dart';
 import 'package:online_course/screens/auth/post_details.dart';
 import 'package:online_course/theme/color.dart';
 
-import 'custom_image.dart';
-
-class FeatureItem extends StatelessWidget {
+class FeatureItem extends StatefulWidget {
   FeatureItem({
     Key? key,
     required this.post,
@@ -20,12 +20,25 @@ class FeatureItem extends StatelessWidget {
   final GestureTapCallback? onTap;
 
   @override
+  State<FeatureItem> createState() => _FeatureItemState();
+}
+
+class _FeatureItemState extends State<FeatureItem> {
+  final FavoriteAndUnfavoritePostController
+      favoriteAndUnfavoritePostController =
+      Get.put(FavoriteAndUnfavoritePostController());
+
+  final PostController postController = Get.put(PostController());
+
+  bool likedPost = false;
+
+  @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap,
+      onTap: widget.onTap,
       child: Container(
-        width: width,
-        height: height,
+        width: widget.width,
+        height: widget.height,
         padding: EdgeInsets.all(10),
         margin: EdgeInsets.only(bottom: 15, top: 5),
         decoration: BoxDecoration(
@@ -70,7 +83,7 @@ class FeatureItem extends StatelessWidget {
             Padding(
               padding: EdgeInsets.all(8.0),
               child: Text(
-                '${post.description}',
+                '${widget.post.description}',
                 textAlign: TextAlign.justify,
                 style: TextStyle(
                   color: textColor,
@@ -82,13 +95,13 @@ class FeatureItem extends StatelessWidget {
             Positioned(
               top: 210,
               child: Container(
-                width: width - 20,
+                width: widget.width - 20,
                 padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "${post.user?.name}",
+                      "${widget.post.user?.name}",
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                         fontSize: 17,
@@ -136,10 +149,17 @@ class FeatureItem extends StatelessWidget {
     return Row(
       children: [
         getAttribute(
-          Icons.favorite_border,
-          Colors.red,
-          '100',
-          onTap: () {},
+          likedPost ? Icons.favorite_sharp : Icons.favorite_outline_sharp,
+          likedPost ? Colors.red : Colors.grey,
+          '200',
+          // likedPost ? postController.posts.likesCount++ : postController.posts.likesCount--,
+          // increase /decrease post like count here
+          onTap: () async {
+            await favoriteAndUnfavoritePostController
+                .favoriteAndUnfavoritePost(widget.post.id!);
+
+            postController.fetchPosts();
+          },
         ),
         SizedBox(
           width: 15,
@@ -147,10 +167,10 @@ class FeatureItem extends StatelessWidget {
         getAttribute(
           Icons.comment,
           labelColor,
-          "100",
+          '120',
           onTap: () {
             Get.to(
-              () => SinglePostScreen(post: post),
+              () => SinglePostScreen(post: widget.post),
             );
             print("Comment");
           },

@@ -78,7 +78,7 @@ class CommentController extends GetxController {
         debugPrint('Comment created successfully');
         SnackBarMessage(
           message:
-              'Comment created successfully ${json.decode(response.body)['message']}',
+              '${json.decode(response.body)['message']}',
         );
       } else {
         isLoading(false);
