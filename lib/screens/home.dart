@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:online_course/controller/post.dart';
+import 'package:online_course/controller/user.dart';
 import 'package:online_course/model/post.dart';
 import 'package:online_course/theme/color.dart';
 import 'package:online_course/utils/data.dart';
@@ -26,7 +27,7 @@ class _HomePageState extends State<HomePage> {
   TextEditingController _postController = TextEditingController();
   TextEditingController _titleController = TextEditingController();
 
-  final Post post = Get.put(Post(user: User()));
+  final UserController userController = Get.put(UserController());
 
   @override
   Widget build(BuildContext context) {
@@ -231,7 +232,8 @@ class _HomePageState extends State<HomePage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    '${post.user.name}',
+                    "Hello",
+                    // "Hello, ${userController.user.name!}",
                     style: TextStyle(
                       color: labelColor,
                       fontSize: 14,

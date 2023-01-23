@@ -72,8 +72,9 @@ class AuthenticationController extends GetxController {
       'username': username,
       'password': password,
     };
-    isLoading(true);
+
     try {
+      isLoading(true);
       http.Response response = await http.post(
         Uri.parse('${BASE_URL}login'),
         headers: {
@@ -111,7 +112,6 @@ class AuthenticationController extends GetxController {
     Get.offAll(() => LoginScreen());
   }
 }
-
 
 SnackbarController snackBarMessage(http.Response response) {
   return Get.snackbar(
