@@ -145,7 +145,7 @@ class PostController extends GetxController {
 
 SnackbarController snackBarMessage(http.Response response) {
   return Get.snackbar(
-    "Error Occurred",
+    "",
     '${json.decode(response.body)['message']}',
     snackPosition: SnackPosition.BOTTOM,
     backgroundColor: Colors.black,
