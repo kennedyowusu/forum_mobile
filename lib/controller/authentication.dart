@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
+import 'package:online_course/screens/auth/login/login.dart';
 import 'package:online_course/screens/root_app.dart';
 import 'package:online_course/services/endpoints.dart';
 
@@ -14,7 +15,7 @@ class AuthenticationController extends GetxController {
 
   final RxString token = ''.obs;
 
-  final localStorage = GetStorage();
+  final GetStorage localStorage = GetStorage();
 
   Future registerUser({
     required String name,
@@ -104,7 +105,13 @@ class AuthenticationController extends GetxController {
       isLoading(false);
     }
   }
+
+  Future logoutUser() async {
+    localStorage.remove('token');
+    Get.offAll(() => LoginScreen());
+  }
 }
+
 
 SnackbarController snackBarMessage(http.Response response) {
   return Get.snackbar(
