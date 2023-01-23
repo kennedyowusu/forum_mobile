@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:online_course/controller/comment.dart';
 import 'package:online_course/model/post.dart';
 import 'package:online_course/theme/color.dart';
-import 'package:online_course/utils/data.dart';
 import 'package:online_course/widgets/feature_item.dart';
 
 class SinglePostScreen extends StatefulWidget {

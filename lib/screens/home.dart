@@ -232,8 +232,8 @@ class _HomePageState extends State<HomePage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Hello",
-                    // "Hello, ${userController.user.name!}",
+                    // "Hello",
+                    "Hello, ${userController.user.value.name}",
                     style: TextStyle(
                       color: labelColor,
                       fontSize: 14,

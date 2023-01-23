@@ -1,14 +1,11 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:online_course/model/comment.dart';
-
 import 'dart:convert' as convert;
 import 'package:http/http.dart' as http;
 import 'package:online_course/model/user.dart';
 import 'package:online_course/services/endpoints.dart';
 
 class UserController extends GetxController {
-  RxList<UserModel> user = <UserModel>[].obs;
+  Rx<UserModel> user = UserModel().obs;
 
   bool isLoading = false.obs.value;
 
@@ -21,8 +18,9 @@ class UserController extends GetxController {
       );
       if (response.statusCode == 201) {
         isLoading = false;
-        final List<dynamic> jsonResponse = convert.jsonDecode(response.body);
-        user.value = jsonResponse.map((e) => UserModel.fromJson(e)).toList();
+        final jsonResponse = convert.jsonDecode(response.body);
+        UserModel userData = UserModel.fromJson(jsonResponse);
+        user(userData);
         print(user);
       } else {
         isLoading = false;
