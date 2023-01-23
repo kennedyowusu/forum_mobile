@@ -19,9 +19,6 @@ class LoginScreen extends StatelessWidget {
   final AuthenticationController _authenticationController =
       Get.put(AuthenticationController());
 
-  String email = '';
-  String password = '';
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -66,6 +63,7 @@ class LoginScreen extends StatelessWidget {
                       prefixIcon: Icons.email,
                       keyboardType: TextInputType.emailAddress,
                       obscureText: false,
+                      
                     ),
                     SizedBox(height: 10),
                     InputField(
@@ -74,6 +72,7 @@ class LoginScreen extends StatelessWidget {
                       prefixIcon: Icons.lock,
                       keyboardType: TextInputType.visiblePassword,
                       obscureText: true,
+                      
                     ),
                     SizedBox(height: 10),
                     Container(
@@ -96,13 +95,10 @@ class LoginScreen extends StatelessWidget {
                             : Button(
                                 buttonText: 'Login',
                                 onPressed: () async {
-                                  if (formKey.currentState!.validate()) {
-                                    formKey.currentState!.save();
-                                    await _authenticationController.loginUser(
-                                      username: usernameController.text.trim(),
-                                      password: passwordController.text.trim(),
-                                    );
-                                  }
+                                  await _authenticationController.loginUser(
+                                    username: usernameController.text.trim(),
+                                    password: passwordController.text.trim(),
+                                  );
                                 },
                               );
                       },

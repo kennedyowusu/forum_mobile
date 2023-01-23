@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'dart:convert' as convert;
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:online_course/screens/root_app.dart';
@@ -37,7 +36,7 @@ class AuthenticationController extends GetxController {
         headers: {
           'Accept': 'application/json',
         },
-        body: convert.jsonEncode(dataObject),
+        body: dataObject,
       );
       if (response.statusCode == 201) {
         isLoading(false);
@@ -52,7 +51,10 @@ class AuthenticationController extends GetxController {
         );
       } else {
         isLoading(false);
-      snackBarMessage(response);
+        debugPrint(
+          '${json.decode(response.body)['message']}',
+        );
+        snackBarMessage(response);
       }
     } catch (e) {
       debugPrint('Registration failed $e');
@@ -61,7 +63,6 @@ class AuthenticationController extends GetxController {
     }
   }
 
-  
   Future loginUser({
     required String username,
     required String password,
@@ -106,14 +107,14 @@ class AuthenticationController extends GetxController {
 }
 
 SnackbarController snackBarMessage(http.Response response) {
-    return Get.snackbar(
-        "",
-        '${json.decode(response.body)['message']}',
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.black,
-        colorText: Colors.white,
-        margin: EdgeInsets.all(20),
-        borderRadius: 10,
-        isDismissible: true,
-      );
-  }
+  return Get.snackbar(
+    "",
+    '${json.decode(response.body)['message']}',
+    snackPosition: SnackPosition.BOTTOM,
+    backgroundColor: Colors.black,
+    colorText: Colors.white,
+    margin: EdgeInsets.all(20),
+    borderRadius: 10,
+    isDismissible: true,
+  );
+}

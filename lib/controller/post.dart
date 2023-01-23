@@ -14,6 +14,7 @@ class PostController extends GetxController {
   final isLoading = false.obs;
   final token = GetStorage().read('token');
 
+  @override
   onInit() {
     super.onInit();
     fetchPosts();
@@ -24,15 +25,13 @@ class PostController extends GetxController {
       posts.clear();
 
       isLoading(true);
-      var response = await http.get(Uri.parse('${BASE_URL}feeds'), headers: {
-        'Content-Type': 'application/json',
+      http.Response response = await http.get(Uri.parse('${BASE_URL}feeds'), headers: {
         'Accept': 'application/json',
         'Authorization': 'Bearer $token',
       });
       if (response.statusCode == 200) {
         isLoading(false);
 
-        final List<Post> posts = [];
         final List<dynamic> data = convert.jsonDecode(response.body)['feeds'];
         for (var item in data) {
           posts.add(Post.fromJson(item));
@@ -57,16 +56,15 @@ class PostController extends GetxController {
         'description': description,
       };
       isLoading(true);
-      var response = await http.post(Uri.parse('${BASE_URL}feed/store'),
+      http.Response response = await http.post(Uri.parse('${BASE_URL}feed/store'),
           headers: {
-            'Content-Type': 'application/json',
             'Accept': 'application/json',
             'Authorization': 'Bearer $token',
           },
           body: convert.jsonEncode(data));
       if (response.statusCode == 201) {
         isLoading(false);
-        fetchPosts();
+        // fetchPosts();
         debugPrint('Post created successfully');
         snackBarMessage(response);
       } else {
@@ -84,9 +82,8 @@ class PostController extends GetxController {
   Future deletePost({required int id}) async {
     try {
       isLoading(true);
-      var response =
+      http.Response response =
           await http.delete(Uri.parse('${BASE_URL}feed/$id'), headers: {
-        'Content-Type': 'application/json',
         'Accept': 'application/json',
         'Authorization': 'Bearer $token',
       });
@@ -118,9 +115,8 @@ class PostController extends GetxController {
         'description': description,
       };
       isLoading(true);
-      var response = await http.put(Uri.parse('${BASE_URL}feed/$id'),
+      http.Response response = await http.put(Uri.parse('${BASE_URL}feed/$id'),
           headers: {
-            'Content-Type': 'application/json',
             'Accept': 'application/json',
             'Authorization': 'Bearer $token',
           },
