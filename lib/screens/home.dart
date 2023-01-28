@@ -137,29 +137,32 @@ class _HomePageState extends State<HomePage> {
                 ),
                 // getFeature(),
 
-                Obx(
-                  () => feedController.isLoading.value
-                      ? Center(
-                          child: CircularProgressIndicator(
-                            color: primary,
-                          ),
-                        )
-                      : ListView.builder(
-                          shrinkWrap: true,
-                          padding: EdgeInsets.symmetric(horizontal: 15.0),
-                          physics: NeverScrollableScrollPhysics(),
-                          itemCount: feedController.feeds.length,
-                          itemBuilder: (context, index) {
-                            {
-                              return FeatureItem(
-                                onTap: () {
+                feedController.feeds.length == 0
+                    ? Center(
+                        child: Text("No Post Created"),
+                      )
+                    : Obx(
+                        () => feedController.isLoading.value
+                            ? Center(
+                                child: CircularProgressIndicator(
+                                  color: primary,
+                                ),
+                              )
+                            : ListView.builder(
+                                shrinkWrap: true,
+                                padding: EdgeInsets.symmetric(horizontal: 15.0),
+                                physics: NeverScrollableScrollPhysics(),
+                                itemCount: feedController.feeds.length,
+                                itemBuilder: (context, index) {
+                                  {
+                                    return FeatureItem(
+                                      onTap: () {},
+                                      feeds: feedController.feeds[index],
+                                    );
+                                  }
                                 },
-                                feeds: feedController.feeds[index],
-                              );
-                            }
-                          },
-                        ),
-                ),
+                              ),
+                      ),
 
                 SizedBox(
                   height: 15,
@@ -190,10 +193,11 @@ class _HomePageState extends State<HomePage> {
                 children: [
                   Obx(
                     () => Text(
-                      "Hello, ${userController.user.value.name![0].toUpperCase()}${userController.user.value.name!.substring(1)}",
+                      "Hello, ${userController.user.value.name?[0].toUpperCase()}${userController.user.value.name!.substring(1)}",
                       style: TextStyle(
                         color: textColor,
                         fontSize: 14,
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
                   ),
@@ -204,7 +208,6 @@ class _HomePageState extends State<HomePage> {
                     "Good Morning!",
                     style: TextStyle(
                       color: textColor,
-                      fontWeight: FontWeight.w500,
                       fontSize: 18,
                     ),
                   ),

@@ -96,6 +96,8 @@ class PostController extends GetxController {
         isLoading(false);
         fetchPosts();
         debugPrint('Post deleted successfully');
+        debugPrint('Posts Length after delete: ${feeds.length}');
+        debugPrint(response.toString());
         snackBarMessage(response);
       } else {
         isLoading(false);
