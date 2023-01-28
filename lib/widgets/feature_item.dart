@@ -31,7 +31,6 @@ class _FeatureItemState extends State<FeatureItem> {
   final PostController postController = Get.put(PostController());
 
   bool likedPost = false;
-  int commentsCount = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -165,7 +164,6 @@ class _FeatureItemState extends State<FeatureItem> {
             Get.to(
               () => SinglePostScreen(post: widget.feeds),
             );
-            print("Comment");
           },
         ),
       ],
