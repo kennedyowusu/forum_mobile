@@ -138,26 +138,28 @@ class _HomePageState extends State<HomePage> {
                 // getFeature(),
 
                 Obx(
-                  () => ListView.builder(
-                    shrinkWrap: true,
-                    padding: EdgeInsets.symmetric(horizontal: 15.0),
-                    physics: NeverScrollableScrollPhysics(),
-                    itemCount: feedController.feeds.length,
-                    itemBuilder: (context, index) {
-                      {
-                        return feedController.isLoading.value
-                            ? CircularProgressIndicator(
-                                color: primary,
-                              )
-                            : FeatureItem(
+                  () => feedController.isLoading.value
+                      ? Center(
+                        child: CircularProgressIndicator(
+                            color: primary,
+                          ),
+                      )
+                      : ListView.builder(
+                          shrinkWrap: true,
+                          padding: EdgeInsets.symmetric(horizontal: 15.0),
+                          physics: NeverScrollableScrollPhysics(),
+                          itemCount: feedController.feeds.length,
+                          itemBuilder: (context, index) {
+                            {
+                              return FeatureItem(
                                 onTap: () {
                                   print("hello ");
                                 },
                                 feeds: feedController.feeds[index],
                               );
-                      }
-                    },
-                  ),
+                            }
+                          },
+                        ),
                 ),
 
                 SizedBox(

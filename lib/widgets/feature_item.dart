@@ -31,6 +31,7 @@ class _FeatureItemState extends State<FeatureItem> {
   final PostController postController = Get.put(PostController());
 
   bool likedPost = false;
+  int commentsCount = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -58,12 +59,35 @@ class _FeatureItemState extends State<FeatureItem> {
             Padding(
               padding: EdgeInsets.all(8.0),
               child: Text(
-                '${widget.feeds.description}',
+                '${widget.feeds.title}',
                 textAlign: TextAlign.justify,
                 style: TextStyle(
                   color: textColor,
                   // overflow: TextOverflow.ellipsis,
                   fontSize: 16,
+                ),
+              ),
+            ),
+            Positioned(
+              top: 50,
+              child: Container(
+                width: widget.width,
+                height: widget.height - 100,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  // image: DecorationImage(
+                  //   image: NetworkImage('${widget.feeds.image}'),
+                  //   fit: BoxFit.cover,
+                  // ),
+                ),
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                    vertical: 1.0,
+                    horizontal: 8.0,
+                  ),
+                  child: Text(
+                    '${widget.feeds.description}',
+                  ),
                 ),
               ),
             ),
@@ -75,6 +99,19 @@ class _FeatureItemState extends State<FeatureItem> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    // Padding(
+                    //   padding: EdgeInsets.all(8.0),
+                    //   child: Text(
+                    //     '${widget.feeds.description}',
+                    //     textAlign: TextAlign.justify,
+                    //     style: TextStyle(
+                    //       color: textColor,
+                    //       overflow: TextOverflow.ellipsis,
+                    //       fontSize: 16,
+                    //     ),
+                    //   ),
+                    // ),
+
                     Text(
                       "${widget.feeds.user.name}",
                       overflow: TextOverflow.ellipsis,
@@ -109,9 +146,7 @@ class _FeatureItemState extends State<FeatureItem> {
         getAttribute(
           likedPost ? Icons.favorite_sharp : Icons.favorite_outline_sharp,
           likedPost ? Colors.red : Colors.grey,
-          '200',
-          // likedPost ? postController.posts.likesCount++ : postController.posts.likesCount--,
-          // increase /decrease post like count here
+          likedPost ? '0' : widget.feeds.likesCount.toString(),
           onTap: () async {
             await favoriteAndUnfavoritePostController
                 .favoriteAndUnfavoritePost(widget.feeds.id);
@@ -125,7 +160,7 @@ class _FeatureItemState extends State<FeatureItem> {
         getAttribute(
           Icons.comment,
           labelColor,
-          '120',
+          '0',
           onTap: () {
             Get.to(
               () => SinglePostScreen(post: widget.feeds),
