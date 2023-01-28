@@ -39,12 +39,7 @@ class PostController extends GetxController {
         final data = feedFromJson(response.body);
         feeds.assignAll(data.feeds);
         debugPrint(feeds.toString());
-        // for (var item in data) {
-        //   posts.add(Post.fromJson(item));
-        //   debugPrint("Title: ${item['title']}");
-        //   debugPrint("Description: ${item['description']}}");
-        //   debugPrint("data $data");
-        // }
+        
       } else {
         isLoading(false);
         debugPrint('Error fetching posts');
