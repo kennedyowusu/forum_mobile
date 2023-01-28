@@ -8,7 +8,7 @@ import 'package:online_course/widgets/feature_item.dart';
 class SinglePostScreen extends StatefulWidget {
   const SinglePostScreen({Key? key, required this.post}) : super(key: key);
 
-  final Post post;
+  final Feed post;
 
   @override
   State<SinglePostScreen> createState() => _SinglePostScreenState();
@@ -58,7 +58,7 @@ class _SinglePostScreenState extends State<SinglePostScreen>
                     print("hello ");
                   },
                   // post: feedController.widget.posts[index],
-                  post: widget.post,
+                  feeds: widget.post,
                 ),
                 SizedBox(
                   height: 15,
@@ -283,7 +283,7 @@ class _SinglePostScreenState extends State<SinglePostScreen>
   }
 }
 
-Widget getAppBar(Post post) {
+Widget getAppBar(Feed feeds) {
   return Padding(
     padding: EdgeInsets.symmetric(
       horizontal: 15.0,
@@ -299,7 +299,7 @@ Widget getAppBar(Post post) {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  post.user?.name ?? "User Name",
+                  feeds.user.name,
                   style: TextStyle(
                     color: labelColor,
                     fontSize: 14,

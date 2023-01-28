@@ -1,97 +1,114 @@
 // To parse this JSON data, do
 //
-// final post = postFromJson(jsonString);
+//     final feed = feedFromJson(jsonString);
 
 import 'dart:convert';
 
-Post postFromJson(String str) => Post.fromJson(json.decode(str));
+FeedResponse feedFromJson(String str) => FeedResponse.fromJson(json.decode(str));
 
-String postToJson(Post data) => json.encode(data.toJson());
+String feedToJson(FeedResponse data) => json.encode(data.toJson());
 
-class Post {
-  Post({
-    this.id,
-    this.title,
-    this.description,
-    this.userId,
-    this.createdAt,
-    this.updatedAt,
-    this.liked,
-    this.likesCount,
-    this.user,
+class FeedResponse {
+  FeedResponse({
+    required this.feeds,
   });
 
-  int? id = 0;
-  String? title = "";
-  String? description = "";
-  int? userId = 0;
-  DateTime? createdAt = DateTime.now();
-  DateTime? updatedAt = DateTime.now();
-  bool? liked = false;
-  int? likesCount = 0;
-  User? user = User();
+  List<Feed> feeds;
 
-  factory Post.fromJson(Map<String, dynamic> json) => Post(
-    id: json["id"],
-    title: json["title"],
-    description: json["description"],
-    userId: json["user_id"],
-    createdAt: DateTime.parse(json["created_at"]),
-    updatedAt: DateTime.parse(json["updated_at"]),
-    liked: json["liked"],
-    likesCount: json["likes_count"],
-    user: User.fromJson(json["user"]),
-  );
+  factory FeedResponse.fromJson(Map<String, dynamic> json) => FeedResponse(
+        feeds: List<Feed>.from(
+            json["feeds"].map((x) => Feed.fromJson(x))),
+      );
 
-Map<String, dynamic> toJson() => {
-    "id": id,
-    "title": title,
-    "description": description,
-    "user_id": userId,
-    "created_at": createdAt?.toIso8601String(),
-    "updated_at": updatedAt!.toIso8601String(),
-    "liked": liked,
-    "likes_count": likesCount,
-    "user": user!.toJson(),
-  };
+  Map<String, dynamic> toJson() => {
+        "feeds": List<dynamic>.from(feeds.map((x) => x.toJson())),
+      };
+}
+
+class Feed {
+  Feed({
+    required this.id,
+    required this.title,
+    required this.description,
+    required this.userId,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.liked,
+    required this.likesCount,
+    required this.user,
+  });
+
+  int id;
+  String title;
+  String description;
+  int userId;
+  DateTime createdAt;
+  DateTime updatedAt;
+  bool liked;
+  int likesCount;
+  User user;
+
+  factory Feed.fromJson(Map<String, dynamic> json) => Feed(
+        id: json["id"],
+        title: json["title"],
+        description: json["description"],
+        userId: json["user_id"],
+        createdAt: DateTime.parse(json["created_at"]),
+        updatedAt: DateTime.parse(json["updated_at"]),
+        liked: json["liked"],
+        likesCount: json["likes_count"],
+        user: User.fromJson(json["user"]),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "title": title,
+        "description": description,
+        "user_id": userId,
+        "created_at": createdAt.toIso8601String(),
+        "updated_at": updatedAt.toIso8601String(),
+        "liked": liked,
+        "likes_count": likesCount,
+        "user": user.toJson(),
+      };
 }
 
 class User {
   User({
-    this.id,
-    this.name,
-    this.username,
-    this.email,
+    required this.id,
+    required this.name,
+    required this.username,
+    required this.email,
     this.emailVerifiedAt,
-    this.createdAt,
-    this.updatedAt,
+    required this.createdAt,
+    required this.updatedAt,
   });
 
-  int? id = 0;
-  String? name = "";
-  String? username = "";
-  String? email = "";
-  DateTime? emailVerifiedAt = DateTime.now();
-  DateTime? createdAt = DateTime.now();
-  DateTime? updatedAt = DateTime.now();
+  int id;
+  String name;
+  String username;
+  String email;
+  dynamic emailVerifiedAt;
+  DateTime createdAt;
+  DateTime updatedAt;
 
   factory User.fromJson(Map<String, dynamic> json) => User(
-    id: json["id"],
-    name: json["name"],
-    username: json["username"],
-    email: json["email"],
-    emailVerifiedAt: DateTime.parse(json["email_verified_at"]),
-    createdAt: DateTime.parse(json["created_at"]),
-    updatedAt: DateTime.parse(json["updated_at"]),
-  );
+        id: json["id"],
+        name: json["name"],
+        username: json["username"],
+        email: json["email"],
+        emailVerifiedAt: json["email_verified_at"],
+        createdAt: DateTime.parse(json["created_at"]),
+        updatedAt: DateTime.parse(json["updated_at"]),
+      );
 
-Map<String, dynamic> toJson() => {
-    "id": id,
-    "name": name,
-    "username": username,
-    "email": email,
-    "email_verified_at": emailVerifiedAt?.toIso8601String(),
-    "created_at": createdAt?.toIso8601String(),
-    "updated_at": updatedAt?.toIso8601String(),
-  };
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "name": name,
+        "username": username,
+        "email": email,
+        "email_verified_at": emailVerifiedAt,
+        "created_at": createdAt.toIso8601String(),
+        "updated_at": updatedAt.toIso8601String(),
+      };
 }

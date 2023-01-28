@@ -10,7 +10,7 @@ import 'package:online_course/model/post.dart';
 import 'package:online_course/services/endpoints.dart';
 
 class PostController extends GetxController {
-  RxList<Post> posts = <Post>[].obs;
+  RxList<Feed> feeds = <Feed>[].obs;
   final isLoading = false.obs;
   final token = GetStorage().read('token');
 
@@ -21,9 +21,9 @@ class PostController extends GetxController {
   }
 
   Future fetchPosts() async {
-    debugPrint('Posts Length: ${posts.length}');
+    debugPrint('Posts Length: ${feeds.length}');
     try {
-      posts.clear();
+      feeds.clear();
 
       isLoading(true);
       http.Response response =
@@ -33,16 +33,18 @@ class PostController extends GetxController {
       });
       if (response.statusCode == 200) {
         isLoading(false);
-        debugPrint('Posts Length after success: ${posts.length}');
+        debugPrint('Posts Length after success: ${feeds.length}');
         debugPrint("User Token: $token");
 
-        final data = json.decode(response.body)['feeds'];
-        for (var item in data) {
-          posts.add(Post.fromJson(item));
-          debugPrint("Title: ${item['title']}");
-          debugPrint("Description: ${item['description']}}");
-          debugPrint("data $data");
-        }
+        final data = feedFromJson(response.body);
+        feeds.assignAll(data.feeds);
+        debugPrint(feeds.toString());
+        // for (var item in data) {
+        //   posts.add(Post.fromJson(item));
+        //   debugPrint("Title: ${item['title']}");
+        //   debugPrint("Description: ${item['description']}}");
+        //   debugPrint("data $data");
+        // }
       } else {
         isLoading(false);
         debugPrint('Error fetching posts');

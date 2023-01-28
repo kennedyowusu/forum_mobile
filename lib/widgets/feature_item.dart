@@ -9,12 +9,12 @@ import 'package:online_course/theme/color.dart';
 class FeatureItem extends StatefulWidget {
   FeatureItem({
     Key? key,
-    required this.post,
+    required this.feeds,
     this.width = 280,
     this.height = 290,
     this.onTap,
   }) : super(key: key);
-  final Post post;
+  final Feed feeds;
   final double width;
   final double height;
   final GestureTapCallback? onTap;
@@ -58,7 +58,7 @@ class _FeatureItemState extends State<FeatureItem> {
             Padding(
               padding: EdgeInsets.all(8.0),
               child: Text(
-                '${widget.post.description}',
+                '${widget.feeds.description}',
                 textAlign: TextAlign.justify,
                 style: TextStyle(
                   color: textColor,
@@ -76,7 +76,7 @@ class _FeatureItemState extends State<FeatureItem> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "${widget.post.user?.name}",
+                      "${widget.feeds.user.name}",
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                         fontSize: 17,
@@ -114,7 +114,7 @@ class _FeatureItemState extends State<FeatureItem> {
           // increase /decrease post like count here
           onTap: () async {
             await favoriteAndUnfavoritePostController
-                .favoriteAndUnfavoritePost(widget.post.id!);
+                .favoriteAndUnfavoritePost(widget.feeds.id);
 
             postController.fetchPosts();
           },
@@ -128,7 +128,7 @@ class _FeatureItemState extends State<FeatureItem> {
           '120',
           onTap: () {
             Get.to(
-              () => SinglePostScreen(post: widget.post),
+              () => SinglePostScreen(post: widget.feeds),
             );
             print("Comment");
           },
