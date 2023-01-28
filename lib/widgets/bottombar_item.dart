@@ -3,12 +3,14 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:online_course/theme/color.dart';
 
 class BottomBarItem extends StatelessWidget {
-  const BottomBarItem(this.icon,
-      {this.onTap,
-      this.color = Colors.grey,
-      this.activeColor = primary,
-      this.isActive = false,
-      this.isNotified = false});
+  const BottomBarItem(
+    this.icon, {
+    this.onTap,
+    this.color = Colors.grey,
+    this.activeColor = primary,
+    this.isActive = false,
+    this.isNotified = false,
+  });
   final String icon;
   final Color color;
   final Color activeColor;
@@ -21,7 +23,7 @@ class BottomBarItem extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: AnimatedContainer(
-        duration: const Duration(milliseconds: 300),
+        duration: Duration(milliseconds: 300),
         curve: Curves.fastOutSlowIn,
         padding: EdgeInsets.all(7),
         decoration: BoxDecoration(
@@ -40,8 +42,8 @@ class BottomBarItem extends StatelessWidget {
         child: SvgPicture.asset(
           icon,
           color: isActive ? activeColor : color,
-          width: 23,
-          height: 23,
+          width: 21,
+          height: 21,
         ),
       ),
     );

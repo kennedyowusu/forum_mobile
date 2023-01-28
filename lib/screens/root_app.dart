@@ -71,10 +71,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return SafeArea(
+      child: Scaffold(
         backgroundColor: appBgColor,
         bottomNavigationBar: getBottomBar(),
-        body: getBarPage());
+        body: getBarPage(),
+      ),
+    );
   }
 
   Widget getBarPage() {
@@ -89,7 +92,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   Widget getBottomBar() {
     return Container(
-      height: 75,
+      height: 70,
       width: double.infinity,
       decoration: BoxDecoration(
           color: bottomBarColor,
