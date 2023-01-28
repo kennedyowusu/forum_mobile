@@ -140,10 +140,10 @@ class _HomePageState extends State<HomePage> {
                 Obx(
                   () => feedController.isLoading.value
                       ? Center(
-                        child: CircularProgressIndicator(
+                          child: CircularProgressIndicator(
                             color: primary,
                           ),
-                      )
+                        )
                       : ListView.builder(
                           shrinkWrap: true,
                           padding: EdgeInsets.symmetric(horizontal: 15.0),
@@ -191,9 +191,9 @@ class _HomePageState extends State<HomePage> {
                 children: [
                   Obx(
                     () => Text(
-                      "Hello, ${userController.user.value.name}",
+                      "Hello, ${userController.user.value.name![0].toUpperCase()}${userController.user.value.name!.substring(1)}",
                       style: TextStyle(
-                        color: labelColor,
+                        color: textColor,
                         fontSize: 14,
                       ),
                     ),
