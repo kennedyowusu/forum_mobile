@@ -39,7 +39,6 @@ class PostController extends GetxController {
         final data = feedFromJson(response.body);
         feeds.assignAll(data.feeds);
         debugPrint(feeds.toString());
-        
       } else {
         isLoading(false);
         debugPrint('Error fetching posts');
@@ -60,16 +59,17 @@ class PostController extends GetxController {
         'description': description,
       };
       isLoading(true);
-      http.Response response =
-          await http.post(Uri.parse('${BASE_URL}feed/store'),
-              headers: {
-                'Accept': 'application/json',
-                'Authorization': 'Bearer $token',
-              },
-              body: convert.jsonEncode(data));
+      http.Response response = await http.post(
+        Uri.parse('${BASE_URL}feed/store'),
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+        body: data,
+      );
       if (response.statusCode == 201) {
         isLoading(false);
-        // fetchPosts();
+        fetchPosts();
         debugPrint('Post created successfully');
         snackBarMessage(response);
       } else {
@@ -125,7 +125,7 @@ class PostController extends GetxController {
             'Accept': 'application/json',
             'Authorization': 'Bearer $token',
           },
-          body: convert.jsonEncode(data));
+          body: data);
       if (response.statusCode == 200) {
         isLoading(false);
         fetchPosts();
