@@ -124,13 +124,15 @@ class CommentController extends GetxController {
         'comment': comment,
       };
       isLoading(true);
-      var response = await http.put(Uri.parse('${BASE_URL}feed/comment/$id'),
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-            'Authorization': 'Bearer $token',
-          },
-          body: convert.jsonEncode(data));
+      var response = await http.put(
+        Uri.parse('${BASE_URL}feed/comment/$id'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+        body: data,
+      );
       if (response.statusCode == 200) {
         isLoading(false);
         fetchComments(Get.arguments['id']);
@@ -150,14 +152,14 @@ class CommentController extends GetxController {
 }
 
 SnackbarController snackBarMessage(http.Response response) {
-    return Get.snackbar(
-        "",
-        '${json.decode(response.body)['message']}',
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.black,
-        colorText: Colors.white,
-        margin: EdgeInsets.all(20),
-        borderRadius: 10,
-        isDismissible: true,
-      );
-  }
+  return Get.snackbar(
+    "",
+    '${json.decode(response.body)['message']}',
+    snackPosition: SnackPosition.BOTTOM,
+    backgroundColor: Colors.black,
+    colorText: Colors.white,
+    margin: EdgeInsets.all(20),
+    borderRadius: 10,
+    isDismissible: true,
+  );
+}

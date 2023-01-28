@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:online_course/controller/comment.dart';
 import 'package:online_course/model/post.dart';
 import 'package:online_course/theme/color.dart';
-import 'package:online_course/widgets/feature_item.dart';
+import 'package:online_course/widgets/comment_card.dart';
 
 class SinglePostScreen extends StatefulWidget {
   const SinglePostScreen({Key? key, required this.post}) : super(key: key);
@@ -43,9 +43,11 @@ class _SinglePostScreenState extends State<SinglePostScreen>
         backgroundColor: appBgColor,
         body: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.only(top: 10, bottom: 10),
+            padding: EdgeInsets.symmetric(
+              vertical: 5,
+              horizontal: 5,
+            ),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 getAppBar(
                   widget.post,
@@ -53,11 +55,7 @@ class _SinglePostScreenState extends State<SinglePostScreen>
                 SizedBox(
                   height: 15,
                 ),
-                FeatureItem(
-                  onTap: () {
-                    print("hello ");
-                  },
-                  // post: feedController.widget.posts[index],
+                CommentCard(
                   feeds: widget.post,
                 ),
                 SizedBox(
@@ -74,8 +72,8 @@ class _SinglePostScreenState extends State<SinglePostScreen>
                         : ListView.builder(
                             shrinkWrap: true,
                             physics: NeverScrollableScrollPhysics(),
-                            // itemCount: comments.length,
-                            itemCount: commentController.comments.length,
+                            // itemCount: commentController.comments.length,
+                            itemCount: 5,
                             itemBuilder: (context, index) {
                               return Padding(
                                 padding: EdgeInsets.symmetric(
@@ -83,21 +81,16 @@ class _SinglePostScreenState extends State<SinglePostScreen>
                                   vertical: 10.0,
                                 ),
                                 child: Container(
-                                  height: 100,
                                   padding: EdgeInsets.all(10),
+                                  height: 100,
                                   decoration: BoxDecoration(
                                     color: Colors.white,
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                   child: ListTile(
-                                    // leading: CircleAvatar(
-                                    //   radius: 30,
-                                    //   backgroundImage: NetworkImage(
-                                    //     "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg",
-                                    //   ),
-                                    // ),
                                     title: Text(
-                                      '${commentController.comments[index].user!.name}',
+                                      // '${commentController.comments[index].user!.name}',
+                                      'User Name',
                                       style: TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.w400,
@@ -108,9 +101,10 @@ class _SinglePostScreenState extends State<SinglePostScreen>
                                           CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          '${commentController.comments[index].user!.createdAt}',
+                                          // '${commentController.comments[index].user!.createdAt}',
+                                          'Date',
                                           style: TextStyle(
-                                            fontSize: 16,
+                                            fontSize: 14,
                                             color: Colors.grey,
                                           ),
                                         ),
@@ -118,7 +112,8 @@ class _SinglePostScreenState extends State<SinglePostScreen>
                                           height: 5,
                                         ),
                                         Text(
-                                          '${commentController.comments[index].body}',
+                                          // '${commentController.comments[index].body}',
+                                          'Comment Body',
                                           style: TextStyle(
                                             fontSize: 16,
                                             fontWeight: FontWeight.w400,
@@ -127,79 +122,27 @@ class _SinglePostScreenState extends State<SinglePostScreen>
                                       ],
                                     ),
                                     // show delete icon if the comment is made by the user
-                                    trailing: commentController
-                                                .comments[index].userId ==
-                                            1
-                                        ? IconButton(
-                                            onPressed: () {
-                                              commentController
-                                                  .deleteComment(
-                                                      commentController
-                                                          .comments[index].id)
-                                                  .then((value) {
-                                                commentController
-                                                    .fetchComments(
-                                                        widget.post.id);
-                                              });
-                                            },
-                                            icon: Icon(
-                                              Icons.delete,
-                                              color: Colors.red,
-                                            ),
-                                          )
-                                        : null,
-
-                                    // trailing: Text(
-                                    //   "time",
-                                    //   style: TextStyle(
-                                    //     fontSize: 14,
-                                    //     color: Colors.grey,
-                                    //   ),
-                                    // ),
+                                    //   trailing: commentController
+                                    //               .comments[index].userId ==
+                                    //           1
+                                    //       ? IconButton(
+                                    //           onPressed: () {
+                                    //             commentController
+                                    //                 .deleteComment(
+                                    //                     commentController
+                                    //                         .comments[index].id)
+                                    //                 .then((value) {
+                                    //               commentController.fetchComments(
+                                    //                   widget.post.id);
+                                    //             });
+                                    //           },
+                                    //           icon: Icon(
+                                    //             Icons.delete,
+                                    //             color: Colors.red,
+                                    //           ),
+                                    //         )
+                                    //       : null,
                                   ),
-                                  // child: Row(
-                                  //   children: [
-                                  //     Expanded(
-                                  //       child: Column(
-                                  //         crossAxisAlignment:
-                                  //             CrossAxisAlignment.start,
-                                  //         children: [
-                                  //           Text(
-                                  //             "Name",
-                                  //             style: TextStyle(
-                                  //               fontSize: 16,
-                                  //               fontWeight: FontWeight.w400,
-                                  //             ),
-                                  //           ),
-                                  //           Text(
-                                  //             "date",
-                                  //             style: TextStyle(
-                                  //               fontSize: 16,
-                                  //               color: Colors.grey,
-                                  //             ),
-                                  //           ),
-                                  //           SizedBox(
-                                  //             height: 5,
-                                  //           ),
-                                  //           Text(
-                                  //             "comment",
-                                  //             style: TextStyle(
-                                  //               fontSize: 16,
-                                  //               fontWeight: FontWeight.w500,
-                                  //             ),
-                                  //           ),
-                                  //         ],
-                                  //       ),
-                                  //     ),
-                                  //     // Text(
-                                  //     //   comments[index]["time"],
-                                  //     //   style: TextStyle(
-                                  //     //     fontSize: 14,
-                                  //     //     color: Colors.grey,
-                                  //     //   ),
-                                  //     // ),
-                                  //   ],
-                                  // ),
                                 ),
                               );
                             },
@@ -281,6 +224,38 @@ class _SinglePostScreenState extends State<SinglePostScreen>
       ],
     );
   }
+
+  buildCommentContainer() {
+    return Container(
+      padding: EdgeInsets.all(10),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "Comments",
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w400,
+            ),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Text(
+            "Please be mindful of your comment!",
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w400,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }
 
 Widget getAppBar(Feed feeds) {
@@ -299,10 +274,12 @@ Widget getAppBar(Feed feeds) {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  feeds.user.name,
+                  feeds.user.name[0].toUpperCase() +
+                      feeds.user.name.substring(1),
                   style: TextStyle(
-                    color: labelColor,
+                    color: textColor,
                     fontSize: 14,
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
                 SizedBox(
