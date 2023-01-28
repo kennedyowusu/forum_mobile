@@ -193,7 +193,7 @@ class _HomePageState extends State<HomePage> {
                 children: [
                   Obx(
                     () => Text(
-                      "Hello, ${userController.user.value.name?[0].toUpperCase()}${userController.user.value.name!.substring(1)}",
+                      "Hello, ${userController.user.value.name?[0].toUpperCase()}${userController.user.value.name?.substring(1)}",
                       style: TextStyle(
                         color: textColor,
                         fontSize: 14,

@@ -137,9 +137,8 @@ class _SinglePostScreenState extends State<SinglePostScreen>
                                                       commentController
                                                           .comments[index].id)
                                                   .then((value) {
-                                                commentController
-                                                    .fetchComments(
-                                                        widget.post.id);
+                                                commentController.fetchComments(
+                                                    widget.post.id);
                                               });
                                             },
                                             icon: Icon(
@@ -299,10 +298,13 @@ Widget getAppBar(Feed feeds) {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  feeds.user.name,
+                  feeds.user.name[0].toUpperCase() +
+                      feeds.user.name.substring(1),
+                  //  "${userController.user.value.name?[0].toUpperCase()}${userController.user.value.name?.substring(1)}"
                   style: TextStyle(
-                    color: labelColor,
+                    color: textColor,
                     fontSize: 14,
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
                 SizedBox(
