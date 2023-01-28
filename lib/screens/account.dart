@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:online_course/controller/authentication.dart';
+import 'package:online_course/controller/user.dart';
 import 'package:online_course/theme/color.dart';
 import 'package:online_course/utils/data.dart';
 import 'package:online_course/widgets/custom_image.dart';
-import 'package:online_course/widgets/setting_item.dart';
+import 'package:online_course/widgets/account_item_icon_holder.dart';
 
 class AccountPage extends StatefulWidget {
   const AccountPage({Key? key}) : super(key: key);
@@ -16,6 +18,8 @@ class AccountPage extends StatefulWidget {
 class _AccountPageState extends State<AccountPage> {
   final AuthenticationController _authenticationController =
       Get.put(AuthenticationController());
+
+  final UserController userController = Get.put(UserController());
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -56,17 +60,26 @@ class _AccountPageState extends State<AccountPage> {
         children: [
           Column(
             children: [
-              CustomImage(
-                profile["image"]!,
-                width: 70,
-                height: 70,
-                radius: 20,
+              Center(
+                child: CircleAvatar(
+                  radius: 60,
+                  backgroundColor: Colors.white,
+                  child: Container(
+                    padding: EdgeInsets.all(5),
+                    child: SvgPicture.asset(
+                      "assets/icons/profile.svg",
+                      color: Colors.grey,
+                      width: 100,
+                      height: 100,
+                    ),
+                  ),
+                ),
               ),
               SizedBox(
-                height: 10,
+                height: 20,
               ),
               Text(
-                profile["name"]!,
+                "${userController.user.value.name}".toUpperCase(),
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
               ),
             ],
@@ -89,11 +102,12 @@ class _AccountPageState extends State<AccountPage> {
               ],
             ),
             child: Column(children: [
-              SettingItem(
-                title: "Notification",
-                leadingIcon: "assets/icons/bell.svg",
+              AccountItemHolder(
+                title:
+                    "${userController.user.value.name?[0].toUpperCase()}${userController.user.value.name?.substring(1)}",
+                // leadingIcon: "assets/icons/heart.svg",
                 bgIconColor: purple,
-                onTap: () {},
+                onTap: () {}, iconData: Icons.person,
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 45),
@@ -102,11 +116,11 @@ class _AccountPageState extends State<AccountPage> {
                   color: Colors.grey.withOpacity(0.8),
                 ),
               ),
-              SettingItem(
-                title: "Privacy",
-                leadingIcon: "assets/icons/shield.svg",
+              AccountItemHolder(
+                title: "${userController.user.value.email}",
+                // leadingIcon: "assets/icons/shield.svg",
                 bgIconColor: orange,
-                onTap: () {},
+                onTap: () {}, iconData: Icons.email,
               ),
             ]),
           ),
@@ -129,13 +143,14 @@ class _AccountPageState extends State<AccountPage> {
             ),
             child: Column(
               children: [
-                SettingItem(
+                AccountItemHolder(
                   title: "Log Out",
-                  leadingIcon: "assets/icons/logout.svg",
+                  // leadingIcon: "assets/icons/logout.svg",
                   bgIconColor: darker,
                   onTap: () {
                     _authenticationController.logoutUser();
                   },
+                  iconData: Icons.logout,
                 ),
               ],
             ),
