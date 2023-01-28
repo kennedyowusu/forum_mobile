@@ -1,13 +1,11 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:online_course/controller/post.dart';
 import 'package:online_course/controller/user.dart';
 import 'package:online_course/theme/color.dart';
 import 'package:online_course/utils/data.dart';
-import 'package:online_course/widgets/feature_item.dart';
-import 'package:online_course/widgets/notification_box.dart';
+import 'package:online_course/widgets/post_card.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -17,8 +15,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final localStorage = GetStorage().read('token');
-
   final PostController feedController = Get.put(PostController());
 
   TextEditingController _postController = TextEditingController();
@@ -137,32 +133,28 @@ class _HomePageState extends State<HomePage> {
                 ),
                 // getFeature(),
 
-                feedController.feeds.length == 0
-                    ? Center(
-                        child: Text("No Post Created"),
-                      )
-                    : Obx(
-                        () => feedController.isLoading.value
-                            ? Center(
-                                child: CircularProgressIndicator(
-                                  color: primary,
-                                ),
-                              )
-                            : ListView.builder(
-                                shrinkWrap: true,
-                                padding: EdgeInsets.symmetric(horizontal: 15.0),
-                                physics: NeverScrollableScrollPhysics(),
-                                itemCount: feedController.feeds.length,
-                                itemBuilder: (context, index) {
-                                  {
-                                    return FeatureItem(
-                                      onTap: () {},
-                                      feeds: feedController.feeds[index],
-                                    );
-                                  }
-                                },
-                              ),
-                      ),
+                Obx(
+                  () => feedController.isLoading.value
+                      ? Center(
+                          child: CircularProgressIndicator(
+                            color: primary,
+                          ),
+                        )
+                      : ListView.builder(
+                          shrinkWrap: true,
+                          padding: EdgeInsets.symmetric(horizontal: 15.0),
+                          physics: NeverScrollableScrollPhysics(),
+                          itemCount: feedController.feeds.length,
+                          itemBuilder: (context, index) {
+                            {
+                              return PostCard(
+                                onTap: () {},
+                                feeds: feedController.feeds[index],
+                              );
+                            }
+                          },
+                        ),
+                ),
 
                 SizedBox(
                   height: 15,
@@ -325,7 +317,7 @@ class _HomePageState extends State<HomePage> {
       ),
       items: List.generate(
         features.length,
-        (index) => FeatureItem(
+        (index) => PostCard(
           onTap: () {},
           feeds: features[index],
         ),

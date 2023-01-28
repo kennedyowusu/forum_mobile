@@ -3,28 +3,22 @@ import 'package:get/get.dart';
 import 'package:online_course/controller/favorite_and_unfavorite.dart';
 import 'package:online_course/controller/post.dart';
 import 'package:online_course/controller/user.dart';
-import 'package:online_course/model/post.dart';
-import 'package:online_course/screens/auth/post_details.dart';
 import 'package:online_course/theme/color.dart';
+import 'package:online_course/model/post.dart';
 
-class FeatureItem extends StatefulWidget {
-  FeatureItem({
+class CommentCard extends StatefulWidget {
+  const CommentCard({
     Key? key,
     required this.feeds,
-    this.width = 280,
-    this.height = 290,
-    this.onTap,
   }) : super(key: key);
+
   final Feed feeds;
-  final double width;
-  final double height;
-  final GestureTapCallback? onTap;
 
   @override
-  State<FeatureItem> createState() => _FeatureItemState();
+  State<CommentCard> createState() => _CommentCardState();
 }
 
-class _FeatureItemState extends State<FeatureItem> {
+class _CommentCardState extends State<CommentCard> {
   final FavoriteAndUnfavoritePostController
       favoriteAndUnfavoritePostController =
       Get.put(FavoriteAndUnfavoritePostController());
@@ -36,19 +30,20 @@ class _FeatureItemState extends State<FeatureItem> {
 
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
+
     return GestureDetector(
-      onTap: widget.onTap,
-      child: GestureDetector(
-        onTap: () {
-          Get.to(
-            () => SinglePostScreen(post: widget.feeds),
-          );
-        },
+      onTap: () {},
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 10.0,
+        ),
         child: Container(
-          width: widget.width,
-          height: widget.height - 40,
+          width: double.infinity,
+          height: 230,
           padding: EdgeInsets.all(10),
-          margin: EdgeInsets.only(bottom: 15, top: 5),
+          margin: EdgeInsets.only(bottom: 15),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(20),
@@ -78,14 +73,10 @@ class _FeatureItemState extends State<FeatureItem> {
               Positioned(
                 top: 50,
                 child: Container(
-                  width: widget.width + 60,
-                  height: widget.height - 100,
+                  width: width + 60,
+                  height: height - 100,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
-                    // image: DecorationImage(
-                    //   image: NetworkImage('${widget.feeds.image}'),
-                    //   fit: BoxFit.cover,
-                    // ),
                   ),
                   child: Padding(
                     padding: EdgeInsets.symmetric(
@@ -104,9 +95,8 @@ class _FeatureItemState extends State<FeatureItem> {
                 ),
               ),
               Positioned(
-                top: 160,
+                top: 140,
                 child: Container(
-                  width: widget.width - 20,
                   padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -126,7 +116,44 @@ class _FeatureItemState extends State<FeatureItem> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          buildFavoriteAndComment(),
+                          Row(
+                            children: [
+                              IconButton(
+                                onPressed: () async {
+                                  await favoriteAndUnfavoritePostController
+                                      .favoriteAndUnfavoritePost(
+                                    widget.feeds.id,
+                                  );
+
+                                  postController.fetchPosts();
+                                },
+                                icon: Icon(
+                                  Icons.favorite_sharp,
+                                  size: 30,
+                                  color: Colors.red,
+                                ),
+                              ),
+                              Text(
+                                '${widget.feeds.likesCount}',
+                                style: TextStyle(
+                                  fontSize: 17,
+                                  color: textColor,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          IconButton(
+                            onPressed: () {},
+                            icon: Icon(
+                              Icons.delete_sharp,
+                              size: 30,
+                              color: Colors.grey,
+                            ),
+                          ),
                         ],
                       ),
                     ],
@@ -137,77 +164,6 @@ class _FeatureItemState extends State<FeatureItem> {
           ),
         ),
       ),
-    );
-  }
-
-  buildFavoriteAndComment() {
-    return Row(
-      children: [
-        getAttribute(
-          Icons.favorite_sharp,
-          Colors.red,
-          likedPost ? '0' : widget.feeds.likesCount.toString(),
-          onTap: () async {
-            await favoriteAndUnfavoritePostController
-                .favoriteAndUnfavoritePost(widget.feeds.id);
-
-            postController.fetchPosts();
-          },
-        ),
-        SizedBox(
-          width: 15,
-        ),
-        getAttribute(
-          Icons.comment,
-          labelColor,
-          '0',
-          onTap: () {
-            Get.to(
-              () => SinglePostScreen(post: widget.feeds),
-            );
-          },
-        ),
-        SizedBox(
-          width: 15,
-        ),
-        getAttribute(
-          Icons.delete_sharp,
-          labelColor,
-          '',
-          onTap: () {
-            postController.deletePost(id: widget.feeds.id);
-            // postController.fetchPosts();
-            print('delete post with id ${widget.feeds.id}');
-          },
-        ),
-      ],
-    );
-  }
-
-  getAttribute(IconData icon, Color color, String info,
-      {required Function()? onTap}) {
-    return Row(
-      children: [
-        IconButton(
-          onPressed: onTap,
-          icon: Icon(
-            icon,
-            size: 30,
-            color: color,
-          ),
-        ),
-        SizedBox(
-          width: 5,
-        ),
-        GestureDetector(
-          onTap: onTap,
-          child: Text(
-            info,
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(color: labelColor, fontSize: 13),
-          ),
-        ),
-      ],
     );
   }
 }
