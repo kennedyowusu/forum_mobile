@@ -55,31 +55,6 @@ class _FeatureItemState extends State<FeatureItem> {
         ),
         child: Stack(
           children: [
-            // CustomImage(data["image"],
-            //   width: double.infinity, height: 190,
-            //   radius: 15,
-            // ),
-            // Positioned(
-            //   top: 170, right: 15,
-            //   child: Container(
-            //     padding: EdgeInsets.all(10),
-            //     decoration: BoxDecoration(
-            //       color: primary,
-            //       borderRadius: BorderRadius.circular(20),
-            //       boxShadow: [
-            //         BoxShadow(
-            //           color: shadowColor.withOpacity(0.05),
-            //           spreadRadius: 1,
-            //           blurRadius: 1,
-            //           offset: Offset(0, 0),
-            //         ),
-            //       ],
-            //     ),
-            //     child: Text(data["price"],
-            //       style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
-            //     ),
-            //   ),
-            // ),
             Padding(
               padding: EdgeInsets.all(8.0),
               child: Text(
@@ -116,23 +91,6 @@ class _FeatureItemState extends State<FeatureItem> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         buildFavoriteAndComment(),
-                        // getAttribute(
-                        //   Icons.play_circle_outlined,
-                        //   labelColor,
-                        //   data["session"],
-                        // ),
-                        // SizedBox(
-                        //   width: 12,
-                        // ),
-                        // getAttribute(
-                        //   Icons.schedule_rounded,
-                        //   labelColor,
-                        //   data["duration"],
-                        // ),
-                        // SizedBox(
-                        //   width: 12,
-                        // ),
-                        // getAttribute(Icons.star, yellow, data["review"]),
                       ],
                     ),
                   ],

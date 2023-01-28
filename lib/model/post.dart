@@ -29,7 +29,7 @@ class Post {
   DateTime? updatedAt = DateTime.now();
   bool? liked = false;
   int? likesCount = 0;
-  User? user;
+  User? user = User();
 
   factory Post.fromJson(Map<String, dynamic> json) => Post(
     id: json["id"],

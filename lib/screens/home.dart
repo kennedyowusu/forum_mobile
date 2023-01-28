@@ -4,13 +4,10 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:online_course/controller/post.dart';
 import 'package:online_course/controller/user.dart';
-import 'package:online_course/model/post.dart';
 import 'package:online_course/theme/color.dart';
 import 'package:online_course/utils/data.dart';
-import 'package:online_course/widgets/category_box.dart';
 import 'package:online_course/widgets/feature_item.dart';
 import 'package:online_course/widgets/notification_box.dart';
-import 'package:online_course/widgets/recommend_item.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -32,6 +29,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
+    print(userController.user.value.email);
 
     return SafeArea(
       child: Scaffold(
@@ -46,8 +44,6 @@ class _HomePageState extends State<HomePage> {
                 SizedBox(
                   height: 15,
                 ),
-                // getCategories(),
-
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 15.0),
                   child: Column(
@@ -136,28 +132,6 @@ class _HomePageState extends State<HomePage> {
                     ],
                   ),
                 ),
-
-                // Padding(
-                //   padding: EdgeInsets.symmetric(horizontal: 15.0),
-                //   child: Container(
-                //     height: height * 0.1,
-                //     padding: EdgeInsets.all(10),
-                //     decoration: BoxDecoration(
-                //       color: Colors.white,
-                //       borderRadius: BorderRadius.circular(20),
-                //     ),
-                //     child: TextFormField(
-                //       decoration: InputDecoration(
-                //         hintText: "What do you want to learn?",
-                //         hintStyle: TextStyle(
-                //           color: Colors.grey,
-                //           fontSize: 16,
-                //         ),
-                //         border: InputBorder.none,
-                //       ),
-                //     ),
-                //   ),
-                // ),
                 SizedBox(
                   height: 15,
                 ),
@@ -194,24 +168,6 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
         ),
-
-        // body: CustomScrollView(
-        //   slivers: [
-        //     SliverAppBar(
-        //       backgroundColor: appBarColor,
-        //       pinned: true,
-        //       snap: true,
-        //       floating: true,
-        //       title: getAppBar(),
-        //     ),
-        //     SliverList(
-        //       delegate: SliverChildBuilderDelegate(
-        //         (context, index) => buildBody(),
-        //         childCount: 1,
-        //       ),
-        //     )
-        //   ],
-        // ),
       ),
     );
   }
@@ -231,12 +187,13 @@ class _HomePageState extends State<HomePage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    // "Hello",
-                    "Hello, ${userController.user.value.name}",
-                    style: TextStyle(
-                      color: labelColor,
-                      fontSize: 14,
+                  Obx(
+                    () => Text(
+                      "Hello, ${userController.user.value.name}",
+                      style: TextStyle(
+                        color: labelColor,
+                        fontSize: 14,
+                      ),
                     ),
                   ),
                   SizedBox(
@@ -275,39 +232,10 @@ class _HomePageState extends State<HomePage> {
               height: 15,
             ),
 
-            // Padding(
-            //   padding: const EdgeInsets.fromLTRB(15, 0, 15, 10),
-            //   child: Text("Featured",
-            //       style: TextStyle(
-            //         color: textColor,
-            //         fontWeight: FontWeight.w600,
-            //         fontSize: 24,
-            //       )),
-            // ),
             getFeature(),
             SizedBox(
               height: 15,
             ),
-            // Container(
-            //   margin: EdgeInsets.fromLTRB(15, 0, 15, 10),
-            //   child: Row(
-            //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //     children: [
-            //       Text(
-            //         "Recommended",
-            //         style: TextStyle(
-            //             fontSize: 22,
-            //             fontWeight: FontWeight.w600,
-            //             color: textColor),
-            //       ),
-            //       Text(
-            //         "See all",
-            //         style: TextStyle(fontSize: 14, color: darker),
-            //       ),
-            //     ],
-            //   ),
-            // ),
-            // getRecommend(),
           ],
         ),
       ),
@@ -326,10 +254,6 @@ class _HomePageState extends State<HomePage> {
                 height: 40,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  // image: DecorationImage(
-                  //   image: AssetImage(profile["image"]!),
-                  //   fit: BoxFit.cover,
-                  // ),
                 ),
               ),
               SizedBox(
@@ -391,31 +315,6 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  int selectedCollection = 0;
-  getCategories() {
-    return SingleChildScrollView(
-      padding: EdgeInsets.fromLTRB(15, 10, 0, 10),
-      scrollDirection: Axis.horizontal,
-      child: Row(
-        children: List.generate(
-          categories.length,
-          (index) => Padding(
-            padding: const EdgeInsets.only(right: 15),
-            child: CategoryBox(
-              selectedColor: Colors.white,
-              data: categories[index],
-              onTap: () {
-                setState(() {
-                  selectedCollection = index;
-                });
-              },
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
   getFeature() {
     return CarouselSlider(
       options: CarouselOptions(
@@ -429,25 +328,6 @@ class _HomePageState extends State<HomePage> {
         (index) => FeatureItem(
           onTap: () {},
           post: features[index],
-        ),
-      ),
-    );
-  }
-
-  getRecommend() {
-    return SingleChildScrollView(
-      padding: EdgeInsets.fromLTRB(15, 5, 0, 5),
-      scrollDirection: Axis.horizontal,
-      child: Row(
-        children: List.generate(
-          recommends.length,
-          (index) => Padding(
-            padding: const EdgeInsets.only(right: 10),
-            child: RecommendItem(
-              data: recommends[index],
-              onTap: () {},
-            ),
-          ),
         ),
       ),
     );

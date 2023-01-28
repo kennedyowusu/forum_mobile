@@ -56,7 +56,7 @@ class LoginScreen extends StatelessWidget {
                   InputField(
                     inputController: usernameController,
                     hintText: 'Enter Username',
-                    prefixIcon: Icons.email,
+                    prefixIcon: Icons.person,
                     keyboardType: TextInputType.emailAddress,
                     obscureText: false,
                     

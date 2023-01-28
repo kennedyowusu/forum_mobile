@@ -15,12 +15,13 @@ class PostController extends GetxController {
   final token = GetStorage().read('token');
 
   @override
-  onInit() {
-    super.onInit();
+  void onInit() {
     fetchPosts();
+    super.onInit();
   }
 
   Future fetchPosts() async {
+    debugPrint('Posts Length: ${posts.length}');
     try {
       posts.clear();
 
@@ -32,8 +33,10 @@ class PostController extends GetxController {
       });
       if (response.statusCode == 200) {
         isLoading(false);
+        debugPrint('Posts Length after success: ${posts.length}');
+        debugPrint("User Token: $token");
 
-        final data = convert.jsonDecode(response.body)['feeds'];
+        final data = json.decode(response.body)['feeds'];
         for (var item in data) {
           posts.add(Post.fromJson(item));
           debugPrint("Title: ${item['title']}");
@@ -142,17 +145,17 @@ class PostController extends GetxController {
       isLoading(false);
     }
   }
-}
 
-SnackbarController snackBarMessage(http.Response response) {
-  return Get.snackbar(
-    "",
-    '${json.decode(response.body)['message']}',
-    snackPosition: SnackPosition.BOTTOM,
-    backgroundColor: Colors.black,
-    colorText: Colors.white,
-    margin: EdgeInsets.all(20),
-    borderRadius: 10,
-    isDismissible: true,
-  );
+  SnackbarController snackBarMessage(http.Response response) {
+    return Get.snackbar(
+      "",
+      '${json.decode(response.body)['message']}',
+      snackPosition: SnackPosition.BOTTOM,
+      backgroundColor: Colors.black,
+      colorText: Colors.white,
+      margin: EdgeInsets.all(20),
+      borderRadius: 10,
+      isDismissible: true,
+    );
+  }
 }
