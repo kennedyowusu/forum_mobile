@@ -153,7 +153,6 @@ class _HomePageState extends State<HomePage> {
                             {
                               return FeatureItem(
                                 onTap: () {
-                                  print("hello ");
                                 },
                                 feeds: feedController.feeds[index],
                               );
@@ -211,10 +210,6 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ],
               ),
-            ),
-            NotificationBox(
-              notifiedNumber: 1,
-              onTap: () {},
             ),
           ],
         ),

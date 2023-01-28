@@ -38,7 +38,7 @@ class _FeatureItemState extends State<FeatureItem> {
       onTap: widget.onTap,
       child: Container(
         width: widget.width,
-        height: widget.height,
+        height: widget.height + 15,
         padding: EdgeInsets.all(10),
         margin: EdgeInsets.only(bottom: 15, top: 5),
         decoration: BoxDecoration(
@@ -62,7 +62,7 @@ class _FeatureItemState extends State<FeatureItem> {
                 textAlign: TextAlign.justify,
                 style: TextStyle(
                   color: textColor,
-                  // overflow: TextOverflow.ellipsis,
+                  fontWeight: FontWeight.bold,
                   fontSize: 16,
                 ),
               ),
@@ -143,8 +143,8 @@ class _FeatureItemState extends State<FeatureItem> {
     return Row(
       children: [
         getAttribute(
-          likedPost ? Icons.favorite_sharp : Icons.favorite_outline_sharp,
-          likedPost ? Colors.red : Colors.grey,
+          Icons.favorite_sharp,
+          Colors.red,
           likedPost ? '0' : widget.feeds.likesCount.toString(),
           onTap: () async {
             await favoriteAndUnfavoritePostController
@@ -178,7 +178,7 @@ class _FeatureItemState extends State<FeatureItem> {
           onPressed: onTap,
           icon: Icon(
             icon,
-            size: 25,
+            size: 30,
             color: color,
           ),
         ),
