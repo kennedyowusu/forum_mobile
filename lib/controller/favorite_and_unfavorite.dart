@@ -8,7 +8,6 @@ import 'package:get/get.dart';
 import 'dart:convert' as convert;
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
-import 'package:online_course/widgets/snackbar.dart';
 
 class FavoriteAndUnfavoritePostController extends GetxController {
   final isLoading = false.obs;
@@ -29,22 +28,25 @@ class FavoriteAndUnfavoritePostController extends GetxController {
           jsonDecode(response.body)['message'] == 'Post liked successfully') {
         isLoading(false);
 
-        SnackBarMessage(message: '${jsonDecode(response.body)['message']}');
+        snackBarMessage(response);
       } else if (response.statusCode == 201 ||
           jsonDecode(response.body)['message'] == 'Post unliked successfully') {
         isLoading(false);
 
-        SnackBarMessage(message: '${jsonDecode(response.body)['message']}');
+        snackBarMessage(response);
       } else {
         isLoading(false);
-        SnackBarMessage(
-          message: '${jsonDecode(response.body)['message']}',
-        );
+        snackBarMessage(response);
       }
     } catch (e) {
       isLoading(false);
-      SnackBarMessage(
-        message: 'Error liking post $e',
+      snackBarMessage(
+        http.Response(
+          json.encode({
+            'message': 'Error occurred',
+          }),
+          500,
+        ),
       );
     } finally {
       isLoading(false);
@@ -53,4 +55,17 @@ class FavoriteAndUnfavoritePostController extends GetxController {
 
   // Increase post like count if like
   // Future increaseFavoriteCount
+}
+
+SnackbarController snackBarMessage(http.Response response) {
+  return Get.snackbar(
+    "",
+    '${json.decode(response.body)['message']}',
+    snackPosition: SnackPosition.BOTTOM,
+    backgroundColor: Colors.black,
+    colorText: Colors.white,
+    margin: EdgeInsets.all(20),
+    borderRadius: 10,
+    isDismissible: true,
+  );
 }

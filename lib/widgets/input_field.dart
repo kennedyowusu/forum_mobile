@@ -6,8 +6,6 @@ class InputField extends StatelessWidget {
     required this.inputController,
     required this.hintText,
     required this.prefixIcon,
-    required this.validator,
-    required this.onSaved,
     required this.keyboardType,
     required this.obscureText,
   }) : super(key: key);
@@ -16,7 +14,6 @@ class InputField extends StatelessWidget {
   final String hintText;
   final IconData prefixIcon;
   final bool obscureText;
-  final Function validator, onSaved;
   final TextInputType keyboardType;
 
   @override
@@ -46,12 +43,6 @@ class InputField extends StatelessWidget {
         controller: inputController,
         obscureText: obscureText ? true : false,
         keyboardType: keyboardType,
-        validator: (value) {
-          return validator(value);
-        },
-        onSaved: (value) {
-          inputController.text = value!;
-        },
         decoration: InputDecoration(
           hintText: hintText,
           hintStyle: TextStyle(

@@ -8,36 +8,37 @@ import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:online_course/model/post.dart';
 import 'package:online_course/services/endpoints.dart';
-import 'package:online_course/widgets/snackbar.dart';
 
 class PostController extends GetxController {
-  RxList<Post> posts = <Post>[].obs;
+  RxList<Feed> feeds = <Feed>[].obs;
   final isLoading = false.obs;
   final token = GetStorage().read('token');
 
-  onInit() {
-    super.onInit();
+  @override
+  void onInit() {
     fetchPosts();
+    super.onInit();
   }
 
   Future fetchPosts() async {
+    debugPrint('Posts Length: ${feeds.length}');
     try {
-      posts.clear();
+      feeds.clear();
 
       isLoading(true);
-      var response = await http.get(Uri.parse('${BASE_URL}feeds'), headers: {
-        'Content-Type': 'application/json',
+      http.Response response =
+          await http.get(Uri.parse('${BASE_URL}feeds'), headers: {
         'Accept': 'application/json',
         'Authorization': 'Bearer $token',
       });
       if (response.statusCode == 200) {
         isLoading(false);
+        debugPrint('Posts Length after success: ${feeds.length}');
+        debugPrint("User Token: $token");
 
-        final List<Post> posts = [];
-        final List<dynamic> data = convert.jsonDecode(response.body)['feeds'];
-        for (var item in data) {
-          posts.add(Post.fromJson(item));
-        }
+        final data = feedFromJson(response.body);
+        feeds.assignAll(data.feeds);
+        debugPrint(feeds.toString());
       } else {
         isLoading(false);
         debugPrint('Error fetching posts');
@@ -58,25 +59,22 @@ class PostController extends GetxController {
         'description': description,
       };
       isLoading(true);
-      var response = await http.post(Uri.parse('${BASE_URL}feed/store'),
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-            'Authorization': 'Bearer $token',
-          },
-          body: convert.jsonEncode(data));
+      http.Response response = await http.post(
+        Uri.parse('${BASE_URL}feed/store'),
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+        body: data,
+      );
       if (response.statusCode == 201) {
         isLoading(false);
         fetchPosts();
         debugPrint('Post created successfully');
-        SnackBarMessage(
-          message: '${json.decode(response.body)['message']}',
-        );
+        snackBarMessage(response);
       } else {
         isLoading(false);
-        SnackBarMessage(
-          message: '${json.decode(response.body)['message']}',
-        );
+        snackBarMessage(response);
       }
     } catch (e) {
       isLoading(false);
@@ -89,9 +87,8 @@ class PostController extends GetxController {
   Future deletePost({required int id}) async {
     try {
       isLoading(true);
-      var response =
+      http.Response response =
           await http.delete(Uri.parse('${BASE_URL}feed/$id'), headers: {
-        'Content-Type': 'application/json',
         'Accept': 'application/json',
         'Authorization': 'Bearer $token',
       });
@@ -99,14 +96,12 @@ class PostController extends GetxController {
         isLoading(false);
         fetchPosts();
         debugPrint('Post deleted successfully');
-        SnackBarMessage(
-          message: '${json.decode(response.body)['message']}',
-        );
+        debugPrint('Posts Length after delete: ${feeds.length}');
+        debugPrint(response.toString());
+        snackBarMessage(response);
       } else {
         isLoading(false);
-        SnackBarMessage(
-          message: '${json.decode(response.body)['message']}',
-        );
+        snackBarMessage(response);
       }
     } catch (e) {
       isLoading(false);
@@ -127,25 +122,20 @@ class PostController extends GetxController {
         'description': description,
       };
       isLoading(true);
-      var response = await http.put(Uri.parse('${BASE_URL}feed/$id'),
+      http.Response response = await http.put(Uri.parse('${BASE_URL}feed/$id'),
           headers: {
-            'Content-Type': 'application/json',
             'Accept': 'application/json',
             'Authorization': 'Bearer $token',
           },
-          body: convert.jsonEncode(data));
+          body: data);
       if (response.statusCode == 200) {
         isLoading(false);
         fetchPosts();
         debugPrint('Post updated successfully');
-        SnackBarMessage(
-          message: '${json.decode(response.body)['message']}',
-        );
+        snackBarMessage(response);
       } else {
         isLoading(false);
-        SnackBarMessage(
-          message: '${json.decode(response.body)['message']}',
-        );
+        snackBarMessage(response);
       }
     } catch (e) {
       isLoading(false);
@@ -153,5 +143,18 @@ class PostController extends GetxController {
     } finally {
       isLoading(false);
     }
+  }
+
+  SnackbarController snackBarMessage(http.Response response) {
+    return Get.snackbar(
+      "",
+      '${json.decode(response.body)['message']}',
+      snackPosition: SnackPosition.BOTTOM,
+      backgroundColor: Colors.black,
+      colorText: Colors.white,
+      margin: EdgeInsets.all(20),
+      borderRadius: 10,
+      isDismissible: true,
+    );
   }
 }

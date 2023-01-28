@@ -3,13 +3,12 @@ import 'package:get/get.dart';
 import 'package:online_course/controller/comment.dart';
 import 'package:online_course/model/post.dart';
 import 'package:online_course/theme/color.dart';
-import 'package:online_course/utils/data.dart';
 import 'package:online_course/widgets/feature_item.dart';
 
 class SinglePostScreen extends StatefulWidget {
   const SinglePostScreen({Key? key, required this.post}) : super(key: key);
 
-  final Post post;
+  final Feed post;
 
   @override
   State<SinglePostScreen> createState() => _SinglePostScreenState();
@@ -59,7 +58,7 @@ class _SinglePostScreenState extends State<SinglePostScreen>
                     print("hello ");
                   },
                   // post: feedController.widget.posts[index],
-                  post: widget.post,
+                  feeds: widget.post,
                 ),
                 SizedBox(
                   height: 15,
@@ -91,12 +90,12 @@ class _SinglePostScreenState extends State<SinglePostScreen>
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                   child: ListTile(
-                                    leading: CircleAvatar(
-                                      radius: 30,
-                                      backgroundImage: NetworkImage(
-                                        "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg",
-                                      ),
-                                    ),
+                                    // leading: CircleAvatar(
+                                    //   radius: 30,
+                                    //   backgroundImage: NetworkImage(
+                                    //     "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg",
+                                    //   ),
+                                    // ),
                                     title: Text(
                                       '${commentController.comments[index].user!.name}',
                                       style: TextStyle(
@@ -128,35 +127,35 @@ class _SinglePostScreenState extends State<SinglePostScreen>
                                       ],
                                     ),
                                     // show delete icon if the comment is made by the user
-                                    // trailing: commentController
-                                    //             .comments[index].userId ==
-                                    //         1
-                                    //     ? IconButton(
-                                    //         onPressed: () {
-                                    //           commentController
-                                    //               .deleteComment(
-                                    //                   commentController
-                                    //                       .comments[index].id)
-                                    //               .then((value) {
-                                    //             commentController
-                                    //                 .fetchComments(
-                                    //                     widget.post.id);
-                                    //           });
-                                    //         },
-                                    //         icon: Icon(
-                                    //           Icons.delete,
-                                    //           color: Colors.red,
-                                    //         ),
-                                    //       )
-                                    //     : null,
+                                    trailing: commentController
+                                                .comments[index].userId ==
+                                            1
+                                        ? IconButton(
+                                            onPressed: () {
+                                              commentController
+                                                  .deleteComment(
+                                                      commentController
+                                                          .comments[index].id)
+                                                  .then((value) {
+                                                commentController
+                                                    .fetchComments(
+                                                        widget.post.id);
+                                              });
+                                            },
+                                            icon: Icon(
+                                              Icons.delete,
+                                              color: Colors.red,
+                                            ),
+                                          )
+                                        : null,
 
-                                    trailing: Text(
-                                      "time",
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        color: Colors.grey,
-                                      ),
-                                    ),
+                                    // trailing: Text(
+                                    //   "time",
+                                    //   style: TextStyle(
+                                    //     fontSize: 14,
+                                    //     color: Colors.grey,
+                                    //   ),
+                                    // ),
                                   ),
                                   // child: Row(
                                   //   children: [
@@ -284,7 +283,7 @@ class _SinglePostScreenState extends State<SinglePostScreen>
   }
 }
 
-Widget getAppBar(Post post) {
+Widget getAppBar(Feed feeds) {
   return Padding(
     padding: EdgeInsets.symmetric(
       horizontal: 15.0,
@@ -300,7 +299,7 @@ Widget getAppBar(Post post) {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  post.user?.name ?? "User Name",
+                  feeds.user.name,
                   style: TextStyle(
                     color: labelColor,
                     fontSize: 14,

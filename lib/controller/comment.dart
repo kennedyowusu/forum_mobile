@@ -6,7 +6,6 @@ import 'dart:convert' as convert;
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:online_course/services/endpoints.dart';
-import 'package:online_course/widgets/snackbar.dart';
 
 import '../model/comment.dart';
 
@@ -76,15 +75,10 @@ class CommentController extends GetxController {
         isLoading(false);
         fetchComments(Get.arguments['id']);
         debugPrint('Comment created successfully');
-        SnackBarMessage(
-          message:
-              '${json.decode(response.body)['message']}',
-        );
+        snackBarMessage(response);
       } else {
         isLoading(false);
-        SnackBarMessage(
-          message: '${json.decode(response.body)['message']}',
-        );
+        snackBarMessage(response);
       }
     } catch (e) {
       isLoading(false);
@@ -110,14 +104,10 @@ class CommentController extends GetxController {
         isLoading(false);
         fetchComments(Get.arguments['id']);
         debugPrint('Comment deleted successfully');
-        SnackBarMessage(
-          message: 'Comment deleted successfully',
-        );
+        snackBarMessage(response);
       } else {
         isLoading(false);
-        SnackBarMessage(
-          message: '${json.decode(response.body)['message']}',
-        );
+        snackBarMessage(response);
       }
     } catch (e) {
       isLoading(false);
@@ -145,14 +135,10 @@ class CommentController extends GetxController {
         isLoading(false);
         fetchComments(Get.arguments['id']);
         debugPrint('Comment updated successfully');
-        SnackBarMessage(
-          message: 'Comment updated successfully',
-        );
+        snackBarMessage(response);
       } else {
         isLoading(false);
-        SnackBarMessage(
-          message: '${json.decode(response.body)['message']}',
-        );
+        snackBarMessage(response);
       }
     } catch (e) {
       isLoading(false);
@@ -162,3 +148,16 @@ class CommentController extends GetxController {
     }
   }
 }
+
+SnackbarController snackBarMessage(http.Response response) {
+    return Get.snackbar(
+        "",
+        '${json.decode(response.body)['message']}',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.black,
+        colorText: Colors.white,
+        margin: EdgeInsets.all(20),
+        borderRadius: 10,
+        isDismissible: true,
+      );
+  }
