@@ -18,7 +18,7 @@ class Post {
     this.updatedAt,
     this.liked,
     this.likesCount,
-    required this.user,
+    this.user,
   });
 
   int? id = 0;
@@ -29,7 +29,7 @@ class Post {
   DateTime? updatedAt = DateTime.now();
   bool? liked = false;
   int? likesCount = 0;
-  User user;
+  User? user;
 
   factory Post.fromJson(Map<String, dynamic> json) => Post(
     id: json["id"],

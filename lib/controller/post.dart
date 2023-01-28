@@ -25,16 +25,20 @@ class PostController extends GetxController {
       posts.clear();
 
       isLoading(true);
-      http.Response response = await http.get(Uri.parse('${BASE_URL}feeds'), headers: {
+      http.Response response =
+          await http.get(Uri.parse('${BASE_URL}feeds'), headers: {
         'Accept': 'application/json',
         'Authorization': 'Bearer $token',
       });
       if (response.statusCode == 200) {
         isLoading(false);
 
-        final List<dynamic> data = convert.jsonDecode(response.body)['feeds'];
+        final data = convert.jsonDecode(response.body)['feeds'];
         for (var item in data) {
           posts.add(Post.fromJson(item));
+          debugPrint("Title: ${item['title']}");
+          debugPrint("Description: ${item['description']}}");
+          debugPrint("data $data");
         }
       } else {
         isLoading(false);
@@ -56,12 +60,13 @@ class PostController extends GetxController {
         'description': description,
       };
       isLoading(true);
-      http.Response response = await http.post(Uri.parse('${BASE_URL}feed/store'),
-          headers: {
-            'Accept': 'application/json',
-            'Authorization': 'Bearer $token',
-          },
-          body: convert.jsonEncode(data));
+      http.Response response =
+          await http.post(Uri.parse('${BASE_URL}feed/store'),
+              headers: {
+                'Accept': 'application/json',
+                'Authorization': 'Bearer $token',
+              },
+              body: convert.jsonEncode(data));
       if (response.statusCode == 201) {
         isLoading(false);
         // fetchPosts();
