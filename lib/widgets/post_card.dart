@@ -95,7 +95,7 @@ class _PostCardState extends State<PostCard> {
                     textAlign: TextAlign.justify,
                     style: TextStyle(
                       color: textColor,
-                      fontSize: 14,
+                      fontSize: 15.5,
                     ),
                   ),
                 ),
@@ -201,7 +201,10 @@ class _PostCardState extends State<PostCard> {
           child: Text(
             info,
             overflow: TextOverflow.ellipsis,
-            style: TextStyle(color: labelColor, fontSize: 13),
+            style: TextStyle(
+              color: labelColor,
+              fontSize: 15,
+            ),
           ),
         ),
       ],
