@@ -33,6 +33,7 @@ class _PostCardState extends State<PostCard> {
   final UserController userController = Get.put(UserController());
 
   bool likedPost = false;
+  Color likeColor = Colors.grey;
 
   @override
   Widget build(BuildContext context) {
@@ -142,7 +143,7 @@ class _PostCardState extends State<PostCard> {
       children: [
         getAttribute(
           Icons.favorite_sharp,
-          Colors.red,
+          widget.feeds.liked == true ? Colors.red : likeColor,
           likedPost ? '0' : widget.feeds.likesCount.toString(),
           onTap: () async {
             await favoriteAndUnfavoritePostController
