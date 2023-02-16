@@ -158,7 +158,8 @@ class _PostCardState extends State<PostCard> {
         getAttribute(
           Icons.comment,
           labelColor,
-          '0',
+          // get comment count from api and pass it here
+          widget.feeds.commentsCount.toString(),
           onTap: () {
             Get.to(
               () => SinglePostScreen(post: widget.feeds),

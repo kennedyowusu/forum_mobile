@@ -72,8 +72,8 @@ class _SinglePostScreenState extends State<SinglePostScreen>
                         : ListView.builder(
                             shrinkWrap: true,
                             physics: NeverScrollableScrollPhysics(),
-                            // itemCount: commentController.comments.length,
-                            itemCount: 5,
+                            itemCount: commentController.comments.length,
+                            // itemCount: 1,
                             itemBuilder: (context, index) {
                               return Padding(
                                 padding: EdgeInsets.symmetric(
@@ -89,8 +89,8 @@ class _SinglePostScreenState extends State<SinglePostScreen>
                                   ),
                                   child: ListTile(
                                     title: Text(
-                                      // '${commentController.comments[index].user!.name}',
-                                      'User Name',
+                                      '${commentController.comments[index].user!.name}',
+                                      // 'User Name',
                                       style: TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.w400,
@@ -101,8 +101,8 @@ class _SinglePostScreenState extends State<SinglePostScreen>
                                           CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          // '${commentController.comments[index].user!.createdAt}',
-                                          'Date',
+                                          '${commentController.comments[index].user!.createdAt}',
+                                          // 'Date',
                                           style: TextStyle(
                                             fontSize: 14,
                                             color: Colors.grey,
@@ -112,8 +112,8 @@ class _SinglePostScreenState extends State<SinglePostScreen>
                                           height: 5,
                                         ),
                                         Text(
-                                          // '${commentController.comments[index].body}',
-                                          'Comment Body',
+                                          '${commentController.comments[index].body}',
+                                          // 'Comment Body',
                                           style: TextStyle(
                                             fontSize: 16,
                                             fontWeight: FontWeight.w400,

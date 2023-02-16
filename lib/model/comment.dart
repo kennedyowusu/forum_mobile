@@ -62,6 +62,7 @@ class Feed {
     required this.updatedAt,
     required this.liked,
     required this.likesCount,
+    required this.commentsCount,
     required this.user,
   });
 
@@ -73,6 +74,7 @@ class Feed {
   DateTime? updatedAt;
   bool? liked;
   int? likesCount;
+  int? commentsCount;
   User? user;
 
   factory Feed.fromJson(Map<String, dynamic> json) => Feed(
@@ -84,6 +86,7 @@ class Feed {
         updatedAt: DateTime.parse(json["updated_at"]),
         liked: json["liked"],
         likesCount: json["likes_count"],
+        commentsCount: json["comments_count"],
         user: User.fromJson(json["user"]),
       );
 
@@ -96,6 +99,7 @@ class Feed {
         "updated_at": updatedAt!.toIso8601String(),
         "liked": liked,
         "likes_count": likesCount,
+        "comments_count": commentsCount,
         "user": user!.toJson(),
       };
 }
