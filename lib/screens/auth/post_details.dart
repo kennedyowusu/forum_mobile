@@ -127,26 +127,26 @@ class _SinglePostScreenState extends State<SinglePostScreen>
                                       ],
                                     ),
                                     // show delete icon if the comment is made by the user
-                                    //   trailing: commentController
-                                    //               .comments[index].userId ==
-                                    //           1
-                                    //       ? IconButton(
-                                    //           onPressed: () {
-                                    //             commentController
-                                    //                 .deleteComment(
-                                    //                     commentController
-                                    //                         .comments[index].id)
-                                    //                 .then((value) {
-                                    //               commentController.fetchComments(
-                                    //                   widget.post.id);
-                                    //             });
-                                    //           },
-                                    //           icon: Icon(
-                                    //             Icons.delete,
-                                    //             color: Colors.red,
-                                    //           ),
-                                    //         )
-                                    //       : null,
+                                    trailing: commentController
+                                                .comments[index].user.id ==
+                                            1
+                                        ? IconButton(
+                                            onPressed: () {
+                                              commentController
+                                                  .deleteComment(
+                                                      commentController
+                                                          .comments[index].id)
+                                                  .then((value) {
+                                                commentController.fetchComments(
+                                                    widget.post.id);
+                                              });
+                                            },
+                                            icon: Icon(
+                                              Icons.delete,
+                                              color: Colors.red,
+                                            ),
+                                          )
+                                        : null,
                                   ),
                                 ),
                               );
