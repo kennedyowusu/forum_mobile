@@ -4,7 +4,7 @@ import 'package:online_course/controller/favorite_and_unfavorite.dart';
 import 'package:online_course/controller/post.dart';
 import 'package:online_course/controller/user.dart';
 import 'package:online_course/model/post.dart';
-import 'package:online_course/screens/auth/post_details.dart';
+import 'package:online_course/screens/post_details.dart';
 import 'package:online_course/theme/color.dart';
 import 'package:online_course/helper/timeAgo.dart';
 
@@ -38,6 +38,19 @@ class _PostCardState extends State<PostCard> {
 
   @override
   Widget build(BuildContext context) {
+    String description = widget.feeds.description;
+    List<String> words = description.split(' ');
+    int chunkSize = 10;
+    List<List<String>> chunks = [];
+
+    for (int i = 0; i < words.length; i += chunkSize) {
+      chunks.add(words.sublist(
+          i, i + chunkSize > words.length ? words.length : i + chunkSize));
+    }
+
+    String formattedDescription =
+        chunks.map((chunk) => chunk.join(' ')).join('\n');
+
     return GestureDetector(
       onTap: () {
         Get.to(
@@ -65,7 +78,11 @@ class _PostCardState extends State<PostCard> {
           children: [
             Padding(
               padding: EdgeInsets.only(
-                  top: 8.0, left: 8.0, right: 8.0, bottom: 25.0),
+                top: 8.0,
+                left: 8.0,
+                right: 8.0,
+                bottom: 25.0,
+              ),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -88,7 +105,6 @@ class _PostCardState extends State<PostCard> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        // '${widget.feeds.title}',
                         "${widget.feeds.user.name}",
                         textAlign: TextAlign.justify,
                         style: TextStyle(
@@ -115,29 +131,38 @@ class _PostCardState extends State<PostCard> {
             ),
             Positioned(
               top: 65,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    '${widget.feeds.title}',
-                    textAlign: TextAlign.justify,
-                    style: TextStyle(
-                      color: textColor,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
+              child: Padding(
+                padding: EdgeInsets.only(
+                  top: 1.0,
+                  bottom: 1.0,
+                  left: 8.0,
+                  right: 50.0,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      '${widget.feeds.title}',
+                      textAlign: TextAlign.justify,
+                      style: TextStyle(
+                        color: textColor,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
                     ),
-                  ),
-                  SizedBox(
-                    height: 10.0,
-                  ),
-                  Text(
-                    '${widget.feeds.description}',
-                    textAlign: TextAlign.justify,
-                    style: TextStyle(
-                      color: textColor,
+                    SizedBox(
+                      height: 10.0,
                     ),
-                  ),
-                ],
+                    Text(
+                      '${formattedDescription}',
+                      textAlign: TextAlign.justify,
+                      style: TextStyle(
+                        color: textColor,
+                        fontSize: 15.5,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
             Positioned(
