@@ -63,7 +63,7 @@ class CommentController extends GetxController {
         'feed_id': id,
       };
       isLoading(true);
-      var response = await http.post(
+      http.Response response = await http.post(
         Uri.parse('${BASE_URL}feed/comment/$id'),
         headers: {
           'Content-Type': 'application/json',
@@ -74,7 +74,7 @@ class CommentController extends GetxController {
       );
       if (response.statusCode == 201) {
         isLoading(false);
-        fetchComments(id);
+        // fetchComments(id);
         debugPrint('Comment created successfully');
         debugPrint(response as String?);
         snackBarMessage(response);

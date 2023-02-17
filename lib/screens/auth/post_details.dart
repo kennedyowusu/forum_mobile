@@ -192,15 +192,22 @@ class _SinglePostScreenState extends State<SinglePostScreen>
         ),
         GestureDetector(
           onTap: () async {
-            await commentController
-                .createComment(
-                  id: widget.post.id.toString(),
+            var response = await commentController.createComment(
+              id: widget.post.id.toString(),
               comment: _commentCreationController.text.trim(),
-              
-            )
-                .then((value) {
+            );
+            if (response != null && response.statusCode == 201) {
+              // Show a success message
+              Get.snackbar('Comment Created', 'Your comment has been created.');
+
+              // Update the UI to show the new comment
               commentController.fetchComments(widget.post.id);
-            });
+
+              // Clear the text field
+              _commentCreationController.clear();
+            }
+
+            // commentController.fetchComments(widget.post.id);
             _commentCreationController.clear();
           },
           child: Container(
@@ -223,6 +230,39 @@ class _SinglePostScreenState extends State<SinglePostScreen>
             ),
           ),
         ),
+        // GestureDetector(
+        //   onTap: () async {
+        //     await commentController
+        //         .createComment(
+        //           id: widget.post.id.toString(),
+        //       comment: _commentCreationController.text.trim(),
+              
+        //     )
+        //         .then((value) {
+        //       commentController.fetchComments(widget.post.id);
+        //     });
+        //     _commentCreationController.clear();
+        //   },
+        //   child: Container(
+        //     height: 50,
+        //     width: 50,
+        //     decoration: BoxDecoration(
+        //       color: primary,
+        //       boxShadow: [
+        //         BoxShadow(
+        //           color: shadowColor.withOpacity(0.1),
+        //           spreadRadius: 1,
+        //           blurRadius: 1,
+        //           offset: Offset(1, 1), // changes position of shadow
+        //         ),
+        //       ],
+        //     ),
+        //     child: Icon(
+        //       Icons.send,
+        //       color: Colors.white,
+        //     ),
+        //   ),
+        // ),
       ],
     );
   }
