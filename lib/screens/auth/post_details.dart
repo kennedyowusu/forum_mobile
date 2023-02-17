@@ -89,8 +89,7 @@ class _SinglePostScreenState extends State<SinglePostScreen>
                                   ),
                                   child: ListTile(
                                     title: Text(
-                                      '${commentController.comments[index].user!.name}',
-                                      // 'User Name',
+                                      '${commentController.comments[index].user.name}',
                                       style: TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.w400,
@@ -102,7 +101,6 @@ class _SinglePostScreenState extends State<SinglePostScreen>
                                       children: [
                                         Text(
                                           '${commentController.comments[index].user.username}',
-                                          // 'Date',
                                           style: TextStyle(
                                             fontSize: 14,
                                             color: Colors.grey,
@@ -113,7 +111,6 @@ class _SinglePostScreenState extends State<SinglePostScreen>
                                         ),
                                         Text(
                                           '${commentController.comments[index].body}',
-                                          // 'Comment Body',
                                           style: TextStyle(
                                             fontSize: 16,
                                             fontWeight: FontWeight.w400,
