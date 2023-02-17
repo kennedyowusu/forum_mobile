@@ -74,7 +74,8 @@ class CommentController extends GetxController {
       );
       if (response.statusCode == 201) {
         isLoading(false);
-        // fetchComments(id);
+         // Update the UI to show the new comment
+        fetchComments(id);
         debugPrint('Comment created successfully');
         debugPrint(response as String?);
         snackBarMessage(response);

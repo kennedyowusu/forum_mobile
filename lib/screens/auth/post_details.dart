@@ -38,7 +38,6 @@ class _SinglePostScreenState extends State<SinglePostScreen>
 
   @override
   Widget build(BuildContext context) {
-    
     return SafeArea(
       child: Scaffold(
         backgroundColor: appBgColor,
@@ -197,17 +196,10 @@ class _SinglePostScreenState extends State<SinglePostScreen>
               comment: _commentCreationController.text.trim(),
             );
             if (response != null && response.statusCode == 201) {
-              // Show a success message
-              Get.snackbar('Comment Created', 'Your comment has been created.');
-
-              // Update the UI to show the new comment
-              commentController.fetchComments(widget.post.id);
-
-              // Clear the text field
-              _commentCreationController.clear();
+              // commentController.fetchComments(widget.post.id);
             }
 
-            // commentController.fetchComments(widget.post.id);
+            // Clear the text field
             _commentCreationController.clear();
           },
           child: Container(
@@ -236,7 +228,7 @@ class _SinglePostScreenState extends State<SinglePostScreen>
         //         .createComment(
         //           id: widget.post.id.toString(),
         //       comment: _commentCreationController.text.trim(),
-              
+
         //     )
         //         .then((value) {
         //       commentController.fetchComments(widget.post.id);
