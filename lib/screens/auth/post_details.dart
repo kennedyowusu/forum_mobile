@@ -106,7 +106,7 @@ class _SinglePostScreenState extends State<SinglePostScreen>
                                           CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          '${commentController.comments[index].user!.createdAt}',
+                                          '${commentController.comments[index].user.username}',
                                           // 'Date',
                                           style: TextStyle(
                                             fontSize: 14,
