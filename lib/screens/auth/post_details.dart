@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:online_course/controller/comment.dart';
+import 'package:online_course/helper/timeAgo.dart';
 import 'package:online_course/model/post.dart';
 import 'package:online_course/theme/color.dart';
 import 'package:online_course/widgets/comment_card.dart';
@@ -18,7 +19,7 @@ class _SinglePostScreenState extends State<SinglePostScreen>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
 
-  TextEditingController _commentEditingController = TextEditingController();
+  TextEditingController _commentCreationController = TextEditingController();
   CommentController commentController = Get.put(CommentController());
 
   @override
@@ -72,8 +73,8 @@ class _SinglePostScreenState extends State<SinglePostScreen>
                         : ListView.builder(
                             shrinkWrap: true,
                             physics: NeverScrollableScrollPhysics(),
-                            // itemCount: commentController.comments.length,
-                            itemCount: 5,
+                            itemCount: commentController.comments.length,
+                            // itemCount: 1,
                             itemBuilder: (context, index) {
                               return Padding(
                                 padding: EdgeInsets.symmetric(
@@ -89,8 +90,7 @@ class _SinglePostScreenState extends State<SinglePostScreen>
                                   ),
                                   child: ListTile(
                                     title: Text(
-                                      // '${commentController.comments[index].user!.name}',
-                                      'User Name',
+                                      '${commentController.comments[index].user.name}',
                                       style: TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.w400,
@@ -101,8 +101,8 @@ class _SinglePostScreenState extends State<SinglePostScreen>
                                           CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          // '${commentController.comments[index].user!.createdAt}',
-                                          'Date',
+                                          // '${commentController.comments[index].createdAt}',
+                                          '${timeAgo(commentController.comments[index].createdAt.toString())}',
                                           style: TextStyle(
                                             fontSize: 14,
                                             color: Colors.grey,
@@ -112,8 +112,7 @@ class _SinglePostScreenState extends State<SinglePostScreen>
                                           height: 5,
                                         ),
                                         Text(
-                                          // '${commentController.comments[index].body}',
-                                          'Comment Body',
+                                          '${commentController.comments[index].body}',
                                           style: TextStyle(
                                             fontSize: 16,
                                             fontWeight: FontWeight.w400,
@@ -122,26 +121,26 @@ class _SinglePostScreenState extends State<SinglePostScreen>
                                       ],
                                     ),
                                     // show delete icon if the comment is made by the user
-                                    //   trailing: commentController
-                                    //               .comments[index].userId ==
-                                    //           1
-                                    //       ? IconButton(
-                                    //           onPressed: () {
-                                    //             commentController
-                                    //                 .deleteComment(
-                                    //                     commentController
-                                    //                         .comments[index].id)
-                                    //                 .then((value) {
-                                    //               commentController.fetchComments(
-                                    //                   widget.post.id);
-                                    //             });
-                                    //           },
-                                    //           icon: Icon(
-                                    //             Icons.delete,
-                                    //             color: Colors.red,
-                                    //           ),
-                                    //         )
-                                    //       : null,
+                                    trailing: commentController
+                                                .comments[index].user.id ==
+                                            1
+                                        ? IconButton(
+                                            onPressed: () {
+                                              commentController
+                                                  .deleteComment(
+                                                      commentController
+                                                          .comments[index].id)
+                                                  .then((value) {
+                                                commentController.fetchComments(
+                                                    widget.post.id);
+                                              });
+                                            },
+                                            icon: Icon(
+                                              Icons.delete,
+                                              color: Colors.red,
+                                            ),
+                                          )
+                                        : null,
                                   ),
                                 ),
                               );
@@ -177,7 +176,7 @@ class _SinglePostScreenState extends State<SinglePostScreen>
               ],
             ),
             child: TextFormField(
-              controller: _commentEditingController,
+              controller: _commentCreationController,
               decoration: InputDecoration(
                 hintText: "Write a comment...",
                 hintStyle: TextStyle(
@@ -191,15 +190,16 @@ class _SinglePostScreenState extends State<SinglePostScreen>
         ),
         GestureDetector(
           onTap: () async {
-            await commentController
-                .createComment(
-              id: widget.post.id,
-              comment: _commentEditingController.text.trim(),
-            )
-                .then((value) {
-              commentController.fetchComments(widget.post.id);
-            });
-            _commentEditingController.clear();
+            var response = await commentController.createComment(
+              id: widget.post.id.toString(),
+              comment: _commentCreationController.text.trim(),
+            );
+            if (response != null && response.statusCode == 201) {
+              // commentController.fetchComments(widget.post.id);
+            }
+
+            // Clear the text field
+            _commentCreationController.clear();
           },
           child: Container(
             height: 50,

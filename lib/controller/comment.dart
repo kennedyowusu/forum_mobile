@@ -12,14 +12,19 @@ import '../model/comment.dart';
 class CommentController extends GetxController {
   RxList<Comment> comments = <Comment>[].obs;
   final isLoading = false.obs;
-  final token = GetStorage().read('token');
+
+  Map<String, String> getHeaders() {
+    final token = GetStorage().read('token');
+    return {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token',
+    };
+  }
 
   @override
   onInit() {
     super.onInit();
-    // fetchComments(
-    //   Get.arguments['id'],
-    // );
   }
 
   Future fetchComments(id) async {
@@ -29,16 +34,11 @@ class CommentController extends GetxController {
 
       var response = await http.get(
         Uri.parse('${BASE_URL}feed/comments/$id'),
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          'Authorization': 'Bearer $token',
-        },
+        headers: getHeaders(),
       );
       if (response.statusCode == 200) {
         isLoading(false);
 
-        final List<Comment> comments = [];
         final List<dynamic> data =
             convert.jsonDecode(response.body)['comments'];
         for (var item in data) {
@@ -57,24 +57,24 @@ class CommentController extends GetxController {
   }
 
   // Create comment for a post
-  Future createComment({required String comment, id}) async {
+  Future createComment({required String comment, required String id}) async {
     try {
       Map<String, String> data = {
-        'comment': comment,
-        'post_id': id,
+        'body': comment,
+        'feed_id': id,
       };
       isLoading(true);
-      var response = await http.post(Uri.parse('${BASE_URL}feed/comment/$id'),
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-            'Authorization': 'Bearer $token',
-          },
-          body: convert.jsonEncode(data));
+      http.Response response = await http.post(
+        Uri.parse('${BASE_URL}feed/comment/$id'),
+        headers: getHeaders(),
+        body: convert.jsonEncode(data),
+      );
       if (response.statusCode == 201) {
         isLoading(false);
-        fetchComments(Get.arguments['id']);
+        // Update the UI to show the new comment
+        fetchComments(id);
         debugPrint('Comment created successfully');
+        debugPrint(response as String?);
         snackBarMessage(response);
       } else {
         isLoading(false);
@@ -94,11 +94,7 @@ class CommentController extends GetxController {
       isLoading(true);
       var response = await http.delete(
         Uri.parse('${BASE_URL}feed/comment/$id'),
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          'Authorization': 'Bearer $token',
-        },
+        headers: getHeaders(),
       );
       if (response.statusCode == 200) {
         isLoading(false);
@@ -126,11 +122,7 @@ class CommentController extends GetxController {
       isLoading(true);
       var response = await http.put(
         Uri.parse('${BASE_URL}feed/comment/$id'),
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          'Authorization': 'Bearer $token',
-        },
+        headers: getHeaders(),
         body: data,
       );
       if (response.statusCode == 200) {

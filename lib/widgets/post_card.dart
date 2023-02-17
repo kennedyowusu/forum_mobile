@@ -33,6 +33,7 @@ class _PostCardState extends State<PostCard> {
   final UserController userController = Get.put(UserController());
 
   bool likedPost = false;
+  Color likeColor = Colors.grey;
 
   @override
   Widget build(BuildContext context) {
@@ -95,7 +96,7 @@ class _PostCardState extends State<PostCard> {
                     textAlign: TextAlign.justify,
                     style: TextStyle(
                       color: textColor,
-                      fontSize: 14,
+                      fontSize: 15.5,
                     ),
                   ),
                 ),
@@ -142,7 +143,7 @@ class _PostCardState extends State<PostCard> {
       children: [
         getAttribute(
           Icons.favorite_sharp,
-          Colors.red,
+          widget.feeds.liked == true ? Colors.red : likeColor,
           likedPost ? '0' : widget.feeds.likesCount.toString(),
           onTap: () async {
             await favoriteAndUnfavoritePostController
@@ -157,7 +158,8 @@ class _PostCardState extends State<PostCard> {
         getAttribute(
           Icons.comment,
           labelColor,
-          '0',
+          // get comment count from api and pass it here
+          widget.feeds.commentsCount.toString(),
           onTap: () {
             Get.to(
               () => SinglePostScreen(post: widget.feeds),
@@ -201,7 +203,10 @@ class _PostCardState extends State<PostCard> {
           child: Text(
             info,
             overflow: TextOverflow.ellipsis,
-            style: TextStyle(color: labelColor, fontSize: 13),
+            style: TextStyle(
+              color: labelColor,
+              fontSize: 15,
+            ),
           ),
         ),
       ],
