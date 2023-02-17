@@ -114,7 +114,7 @@ class _PostCardState extends State<PostCard> {
               ),
             ),
             Positioned(
-              top: 60,
+              top: 65,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
