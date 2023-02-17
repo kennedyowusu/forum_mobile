@@ -4,8 +4,9 @@ import 'package:online_course/controller/favorite_and_unfavorite.dart';
 import 'package:online_course/controller/post.dart';
 import 'package:online_course/controller/user.dart';
 import 'package:online_course/model/post.dart';
-import 'package:online_course/screens/auth/post_details.dart';
+import 'package:online_course/screens/post_details.dart';
 import 'package:online_course/theme/color.dart';
+import 'package:online_course/helper/timeAgo.dart';
 
 class PostCard extends StatefulWidget {
   PostCard({
@@ -37,6 +38,19 @@ class _PostCardState extends State<PostCard> {
 
   @override
   Widget build(BuildContext context) {
+    String description = widget.feeds.description;
+    List<String> words = description.split(' ');
+    int chunkSize = 10;
+    List<List<String>> chunks = [];
+
+    for (int i = 0; i < words.length; i += chunkSize) {
+      chunks.add(words.sublist(
+          i, i + chunkSize > words.length ? words.length : i + chunkSize));
+    }
+
+    String formattedDescription =
+        chunks.map((chunk) => chunk.join(' ')).join('\n');
+
     return GestureDetector(
       onTap: () {
         Get.to(
@@ -63,71 +77,103 @@ class _PostCardState extends State<PostCard> {
         child: Stack(
           children: [
             Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Text(
-                '${widget.feeds.title}',
-                textAlign: TextAlign.justify,
-                style: TextStyle(
-                  color: textColor,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                ),
+              padding: EdgeInsets.only(
+                top: 8.0,
+                left: 8.0,
+                right: 8.0,
+                bottom: 25.0,
               ),
-            ),
-            Positioned(
-              top: 50,
-              child: Container(
-                width: widget.width + 60,
-                height: widget.height - 100,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  // image: DecorationImage(
-                  //   image: NetworkImage('${widget.feeds.image}'),
-                  //   fit: BoxFit.cover,
-                  // ),
-                ),
-                child: Padding(
-                  padding: EdgeInsets.symmetric(
-                    vertical: 1.0,
-                    horizontal: 8.0,
-                  ),
-                  child: Text(
-                    '${widget.feeds.description}',
-                    textAlign: TextAlign.justify,
-                    style: TextStyle(
-                      color: textColor,
-                      fontSize: 15.5,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    width: 40,
+                    height: 40,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      image: DecorationImage(
+                        // image: NetworkImage('${widget.feeds.user.image}'),
+                        image: AssetImage('assets/images/forum.png'),
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
-                ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "${widget.feeds.user.name}",
+                        textAlign: TextAlign.justify,
+                        style: TextStyle(
+                          color: textColor,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Text(
+                        "${timeAgo(widget.feeds.user.createdAt.toString())}",
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: textColor,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ),
             Positioned(
-              top: 160,
-              child: Container(
-                width: widget.width - 20,
-                padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
+              top: 65,
+              child: Padding(
+                padding: EdgeInsets.only(
+                  top: 1.0,
+                  bottom: 1.0,
+                  left: 8.0,
+                  right: 50.0,
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "${widget.feeds.user.name}",
-                      overflow: TextOverflow.ellipsis,
+                      '${widget.feeds.title}',
+                      textAlign: TextAlign.justify,
                       style: TextStyle(
-                        fontSize: 17,
                         color: textColor,
-                        fontWeight: FontWeight.w500,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
                       ),
                     ),
                     SizedBox(
-                      height: 10,
+                      height: 10.0,
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        buildFavoriteAndComment(),
-                      ],
+                    Text(
+                      '${formattedDescription}',
+                      textAlign: TextAlign.justify,
+                      style: TextStyle(
+                        color: textColor,
+                        fontSize: 15.5,
+                      ),
                     ),
+                  ],
+                ),
+              ),
+            ),
+            Positioned(
+              top: 190,
+              child: Container(
+                width: widget.width - 20,
+                padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    buildFavoriteAndComment(),
                   ],
                 ),
               ),

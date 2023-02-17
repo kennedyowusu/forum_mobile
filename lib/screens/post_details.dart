@@ -74,7 +74,6 @@ class _SinglePostScreenState extends State<SinglePostScreen>
                             shrinkWrap: true,
                             physics: NeverScrollableScrollPhysics(),
                             itemCount: commentController.comments.length,
-                            // itemCount: 1,
                             itemBuilder: (context, index) {
                               return Padding(
                                 padding: EdgeInsets.symmetric(
@@ -101,7 +100,6 @@ class _SinglePostScreenState extends State<SinglePostScreen>
                                           CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          // '${commentController.comments[index].createdAt}',
                                           '${timeAgo(commentController.comments[index].createdAt.toString())}',
                                           style: TextStyle(
                                             fontSize: 14,
@@ -128,12 +126,17 @@ class _SinglePostScreenState extends State<SinglePostScreen>
                                             onPressed: () {
                                               commentController
                                                   .deleteComment(
-                                                      commentController
-                                                          .comments[index].id)
-                                                  .then((value) {
-                                                commentController.fetchComments(
-                                                    widget.post.id);
-                                              });
+                                                commentController
+                                                    .comments[index].id,
+                                              )
+                                                  .then(
+                                                (value) {
+                                                  commentController
+                                                      .fetchComments(
+                                                    widget.post.id,
+                                                  );
+                                                },
+                                              );
                                             },
                                             icon: Icon(
                                               Icons.delete,
@@ -222,38 +225,6 @@ class _SinglePostScreenState extends State<SinglePostScreen>
           ),
         ),
       ],
-    );
-  }
-
-  buildCommentContainer() {
-    return Container(
-      padding: EdgeInsets.all(10),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            "Comments",
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w400,
-            ),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Text(
-            "Please be mindful of your comment!",
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w400,
-            ),
-          ),
-        ],
-      ),
     );
   }
 }

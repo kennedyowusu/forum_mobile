@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:online_course/controller/favorite_and_unfavorite.dart';
 import 'package:online_course/controller/post.dart';
 import 'package:online_course/controller/user.dart';
+import 'package:online_course/helper/timeAgo.dart';
 import 'package:online_course/theme/color.dart';
 import 'package:online_course/model/post.dart';
 
@@ -41,7 +42,7 @@ class _CommentCardState extends State<CommentCard> {
         ),
         child: Container(
           width: double.infinity,
-          height: 230,
+          height: 240,
           padding: EdgeInsets.all(10),
           margin: EdgeInsets.only(bottom: 15),
           decoration: BoxDecoration(
@@ -60,42 +61,67 @@ class _CommentCardState extends State<CommentCard> {
             children: [
               Padding(
                 padding: EdgeInsets.all(8.0),
-                child: Text(
-                  '${widget.feeds.title}',
-                  textAlign: TextAlign.justify,
-                  style: TextStyle(
-                    color: textColor,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                  ),
-                ),
-              ),
-              Positioned(
-                top: 50,
-                child: Container(
-                  width: width + 60,
-                  height: height - 100,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                      vertical: 1.0,
-                      horizontal: 8.0,
-                    ),
-                    child: Text(
-                      '${widget.feeds.description}',
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      '${widget.feeds.title}',
                       textAlign: TextAlign.justify,
+                      style: TextStyle(
+                        color: textColor,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Text(
+                      '${timeAgo(widget.feeds.createdAt.toString())}',
+                      textAlign: TextAlign.start,
                       style: TextStyle(
                         color: textColor,
                         fontSize: 14,
                       ),
                     ),
+                  ],
+                ),
+              ),
+              Positioned(
+                top: 60,
+                child: Container(
+                  width: width,
+                  height: height - 100,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                      top: 1.0,
+                      bottom: 1.0,
+                      left: 8.0,
+                      right: 50.0,
+                    ),
+                    child: Wrap(
+                      children: widget.feeds.description
+                          .split(' ')
+                          .map((word) => Text(
+                                word,
+                                textAlign: TextAlign.start,
+                                style: TextStyle(
+                                  color: textColor,
+                                  fontSize: 14,
+                                ),
+                              ))
+                          .toList(),
+                      runSpacing: 2, // adds spacing between the lines
+                      spacing: 6, // adds spacing between the words
+                    ),
                   ),
                 ),
               ),
               Positioned(
-                top: 140,
+                top: 160,
                 child: Container(
                   padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
                   child: Column(
@@ -111,7 +137,7 @@ class _CommentCardState extends State<CommentCard> {
                         ),
                       ),
                       SizedBox(
-                        height: 10,
+                        height: 1,
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
