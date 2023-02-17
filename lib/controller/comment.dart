@@ -38,7 +38,6 @@ class CommentController extends GetxController {
       if (response.statusCode == 200) {
         isLoading(false);
 
-        
         final List<dynamic> data =
             convert.jsonDecode(response.body)['comments'];
         for (var item in data) {

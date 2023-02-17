@@ -38,6 +38,11 @@ class _SinglePostScreenState extends State<SinglePostScreen>
 
   @override
   Widget build(BuildContext context) {
+    // print all comments of the post in the console
+    commentController.comments.forEach((element) {
+      print(element.body);
+      print(element.user!.name);
+    });
     return SafeArea(
       child: Scaffold(
         backgroundColor: appBgColor,
