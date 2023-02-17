@@ -31,7 +31,8 @@ class UserController extends GetxController {
         isLoading = false;
         final jsonResponse = convert.jsonDecode(response.body);
         UserModel userData = UserModel.fromJson(jsonResponse);
-        user(userData);
+        user.value =
+            userData; // update the user observable with the actual user data
         print(user);
       } else {
         isLoading = false;

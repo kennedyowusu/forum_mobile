@@ -4,8 +4,6 @@ import 'package:get/get.dart';
 import 'package:online_course/controller/authentication.dart';
 import 'package:online_course/controller/user.dart';
 import 'package:online_course/theme/color.dart';
-import 'package:online_course/utils/data.dart';
-import 'package:online_course/widgets/custom_image.dart';
 import 'package:online_course/widgets/account_item_icon_holder.dart';
 
 class AccountPage extends StatefulWidget {
