@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:online_course/controller/comment.dart';
+import 'package:online_course/helper/timeAgo.dart';
 import 'package:online_course/model/post.dart';
 import 'package:online_course/theme/color.dart';
 import 'package:online_course/widgets/comment_card.dart';
@@ -100,7 +101,8 @@ class _SinglePostScreenState extends State<SinglePostScreen>
                                           CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          '${commentController.comments[index].user.username}',
+                                          // '${commentController.comments[index].createdAt}',
+                                          '${timeAgo(commentController.comments[index].createdAt.toString())}',
                                           style: TextStyle(
                                             fontSize: 14,
                                             color: Colors.grey,
