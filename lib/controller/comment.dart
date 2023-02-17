@@ -56,24 +56,27 @@ class CommentController extends GetxController {
   }
 
   // Create comment for a post
-  Future createComment({required String comment, id}) async {
+  Future createComment({required String comment, required String id}) async {
     try {
       Map<String, String> data = {
-        'comment': comment,
-        'post_id': id,
+        'body': comment,
+        'feed_id': id,
       };
       isLoading(true);
-      var response = await http.post(Uri.parse('${BASE_URL}feed/comment/$id'),
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-            'Authorization': 'Bearer $token',
-          },
-          body: convert.jsonEncode(data));
+      var response = await http.post(
+        Uri.parse('${BASE_URL}feed/comment/$id'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+        body: convert.jsonEncode(data),
+      );
       if (response.statusCode == 201) {
         isLoading(false);
-        fetchComments(Get.arguments['id']);
+        fetchComments(id);
         debugPrint('Comment created successfully');
+        debugPrint(response as String?);
         snackBarMessage(response);
       } else {
         isLoading(false);

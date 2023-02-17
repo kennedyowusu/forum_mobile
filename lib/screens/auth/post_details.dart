@@ -18,7 +18,7 @@ class _SinglePostScreenState extends State<SinglePostScreen>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
 
-  TextEditingController _commentEditingController = TextEditingController();
+  TextEditingController _commentCreationController = TextEditingController();
   CommentController commentController = Get.put(CommentController());
 
   @override
@@ -38,11 +38,7 @@ class _SinglePostScreenState extends State<SinglePostScreen>
 
   @override
   Widget build(BuildContext context) {
-    // print all comments of the post in the console
-    commentController.comments.forEach((element) {
-      print(element.body);
-      print(element.user!.name);
-    });
+    
     return SafeArea(
       child: Scaffold(
         backgroundColor: appBgColor,
@@ -182,7 +178,7 @@ class _SinglePostScreenState extends State<SinglePostScreen>
               ],
             ),
             child: TextFormField(
-              controller: _commentEditingController,
+              controller: _commentCreationController,
               decoration: InputDecoration(
                 hintText: "Write a comment...",
                 hintStyle: TextStyle(
@@ -198,13 +194,14 @@ class _SinglePostScreenState extends State<SinglePostScreen>
           onTap: () async {
             await commentController
                 .createComment(
-              id: widget.post.id,
-              comment: _commentEditingController.text.trim(),
+                  id: widget.post.id.toString(),
+              comment: _commentCreationController.text.trim(),
+              
             )
                 .then((value) {
               commentController.fetchComments(widget.post.id);
             });
-            _commentEditingController.clear();
+            _commentCreationController.clear();
           },
           child: Container(
             height: 50,
